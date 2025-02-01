@@ -25,17 +25,21 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loginChecking, setLoginChecking] = useState(true);
   const token = Cookies.get("user");
+  // console.log(token);
+  const parsedToken = JSON.parse(token);
+  console.log(parsedToken);
+  const approvalToken = parsedToken.approvalToken;
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
       try {
-        const response = await Axios.get("/auth/", {
+        const response = await Axios.get("/user/getAllUser", {
           headers: {
-            Authorization: token,
+            Authorization: approvalToken,
           },
         });
         if (response.status === 200 && response.data.success) {
-          setUser(response.data.data.user);
+          setUser(response);
         } else {
           setUser(null);
         }
@@ -46,12 +50,14 @@ const AuthProvider = ({ children }) => {
         setLoginChecking(false);
       }
     };
-    if (token) {
+    if (approvalToken) {
       checkUserAuthentication();
     } else {
       setLoginChecking(false);
     }
   }, [token, Axios]);
+
+  console.log(user);
 
   const customSignIn = async (email, password) => {
     try {

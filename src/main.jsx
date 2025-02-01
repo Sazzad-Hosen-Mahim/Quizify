@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <HelmetProvider>
       <HeroUIProvider>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AuthProvider>
               <main className="min-h-screen  overflow-hidden font-fira text-foreground bg-background">
                 <RouterProvider

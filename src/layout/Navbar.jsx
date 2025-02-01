@@ -5,16 +5,16 @@ import {
   NavbarItem,
   NavbarMenuToggle,
   NavbarMenu,
-} from '@heroui/react';
+} from "@heroui/react";
 
-import { Link, NavLink } from 'react-router-dom';
-import { useContext, useState } from 'react';
-import { AuthContext } from '../hooks/AuthContextProvider';
-import { motion } from 'framer-motion';
-import UserPopover from '@/components/UserPopover';
+import { Link, NavLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../hooks/AuthContextProvider";
+import { motion } from "framer-motion";
+import UserPopover from "@/components/UserPopover";
 
-import { Icons } from '@/assets/icons/Icons';
-import toast from 'react-hot-toast';
+import { Icons } from "@/assets/icons/Icons";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,20 +31,20 @@ export default function Header() {
       className=" bg-black/30 py-2 z-50 text-white dark:bg-background/50 backdrop-blur-sm fixed top-0 "
       classNames={{
         item: [
-          'flex',
-          'relative',
-          'h-full',
-          'items-center',
+          "flex",
+          "relative",
+          "h-full",
+          "items-center",
           "data-[active=true]:after:content-['']",
-          'data-[active=true]:after:absolute',
-          'data-[active=true]:after:bottom-0',
-          'data-[active=true]:after:left-0',
-          'data-[active=true]:after:right-0',
-          'data-[active=true]:after:h-[2px]',
-          'data-[active=true]:after:rounded-[2px]',
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[2px]",
+          "data-[active=true]:after:rounded-[2px]",
           // 'data-[active=true]:after:bg-[#428ee6]',
-          'data-[active=true]:text-danger',
-          'data-[active=false]:hover:text-danger',
+          "data-[active=true]:text-danger",
+          "data-[active=false]:hover:text-danger",
         ],
       }}
     >
@@ -64,11 +64,10 @@ export default function Header() {
             arial-label="home-page"
             className={` ml-4 flex shrink-0 grow-0 justify-center`}
           >
-            <Icons.logoICon className="text-danger dark:text-primary" />
+            <h1 className="text-2xl font-bold">Quizzy</h1>
           </NavLink>
         </motion.div>
       </NavbarContent>
-     
 
       <NavbarContent as="div" className="items-center" justify="end">
         <div className="hidden md:flex gap-8">
@@ -85,14 +84,13 @@ export default function Header() {
                     className="hover:text-danger link-underline"
                     isActive={isActive}
                   >
-                    {' '}
-                    Home{' '}
+                    {" "}
+                    Home{" "}
                   </NavbarItem>
                 )}
               </NavLink>
             </motion.div>
 
-         
             <motion.div variants={childVariant}>
               <NavLink to="/contact" aria-current="page">
                 {({ isActive }) => (
@@ -107,10 +105,10 @@ export default function Header() {
             </motion.div>
           </motion.div>
         </div>
-        {user && user.userStatus !== 'banned' ? (
+        {user && user.userStatus !== "banned" ? (
           <Button
             as={Link}
-            to={user.role === 'admin' ? '/admin' : '/dashboard/profile'}
+            to={user.role === "admin" ? "/admin" : "/dashboard/profile"}
             color="primary"
             size="sm"
             variant="bordered"
@@ -119,12 +117,14 @@ export default function Header() {
               <Icons.settings className="animate-spinner-ease-spin" />
             }
           >
-            {user && user.role === 'admin' ? 'Dashboard' : 'Profile'}
+            {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
         ) : (
           <Button
             onPress={() =>
-              toast.error('Youre Banned, You Cant Access Dashboard Right Now!')
+              toast.error(
+                "You are Banned, You Cant Access Dashboard Right Now!"
+              )
             }
             color="primary"
             size="sm"
@@ -134,17 +134,17 @@ export default function Header() {
               <Icons.settings className="animate-spinner-ease-spin" />
             }
           >
-            {user && user.role === 'admin' ? 'Dashboard' : 'Profile'}
+            {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
         )}
-       
+
         <div className=" hidden md:block">{/* <ModeToggle /> */}</div>
       </NavbarContent>
       <NavbarMenu>
         <NavLink to="/">
           {({ isActive }) => (
             <NavbarItem
-              className="hover:text-danger h-fit mb-4"
+              className="hover:text-danger h-fit mb-4 mt-3"
               isActive={isActive}
             >
               Home
@@ -178,13 +178,13 @@ export default function Header() {
       </NavbarMenu>
 
       <NavbarContent justify="end" className="flex gap-12">
-      {user ? (
+        {user ? (
           <UserPopover user={user} logout={logout} />
         ) : (
           <div>
             <Button
               as={Link}
-              to={'/login'}
+              to={"/login"}
               color="default"
               size="sm"
               className="text-white"
@@ -207,7 +207,7 @@ const logoVariant = {
     y: 0,
     transition: {
       duration: 1,
-      type: 'spring',
+      type: "spring",
       stiffness: 80,
     },
   },
