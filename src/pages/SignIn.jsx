@@ -108,7 +108,7 @@ const SignIn = () => {
         <Icons.logoICon className=" absolute hidden md:flex  text-danger  top-10 left-10" />
       </Link>
       <Helmet>
-        <title>Sign In | Jobify</title>
+        <title>Sign In | Quizzy</title>
         <link rel="canonical" href="https://jobify-bd6c2.web.app/" />
       </Helmet>
 
@@ -124,7 +124,7 @@ const SignIn = () => {
         <div className="flex-1 w-full  min-h-screen  flex justify-center items-center mx-auto">
           <Card className="bg-transparent border-none w-full p-4 md:p-10  ">
             <CardHeader className="flex flex-col gap-4">
-              <p className="text-2xl font-medium">Sign in to Healthfiy</p>
+              <p className="text-2xl font-medium">Sign in to Quizzy</p>
               <p className="text-sm ">
                 New user?{" "}
                 <Link to={"/signup"} className="text-danger hover:underline">
@@ -207,13 +207,6 @@ const SignIn = () => {
                 >
                   Login
                 </Button>
-                <div className="relative flex items-center">
-                  <Divider className="flex-1" />
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className=" px-2 text-muted-foreground">Or</span>
-                  </div>
-                  <Divider className="flex-1" />
-                </div>
               </form>
             </CardContent>
             <CardFooter></CardFooter>
