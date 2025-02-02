@@ -36,7 +36,7 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  console.log(approvalToken);
+  // console.log(approvalToken);
 
   useEffect(() => {
     const checkUserAuthentication = async () => {

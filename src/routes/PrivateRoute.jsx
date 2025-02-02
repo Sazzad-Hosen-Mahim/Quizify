@@ -41,7 +41,7 @@ export default function PrivateRoute({ children, allowedRoles = [] }) {
     return <Navigate to="/login" replace state={{ path: pathname }} />;
   }
 
-  console.log(`User role: ${user.role}, Allowed roles: ${allowedRoles}`);
+  // console.log(`User role: ${user.role}, Allowed roles: ${allowedRoles}`);
 
   if (!allowedRoles.includes(user.role)) {
     console.log(

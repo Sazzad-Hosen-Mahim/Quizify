@@ -28,7 +28,7 @@ const UserPopover = ({ user, logout }) => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

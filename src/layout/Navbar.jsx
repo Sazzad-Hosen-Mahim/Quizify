@@ -43,7 +43,7 @@ export default function Header() {
     setLoading(false);
   }, []);
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <Navbar
