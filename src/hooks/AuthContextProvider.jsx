@@ -26,9 +26,17 @@ const AuthProvider = ({ children }) => {
   const [loginChecking, setLoginChecking] = useState(true);
   const token = Cookies.get("user");
   // console.log(token);
-  const parsedToken = JSON.parse(token);
-  console.log(parsedToken);
-  const approvalToken = parsedToken.approvalToken;
+  let approvalToken = null;
+  if (token) {
+    try {
+      const parsedToken = JSON.parse(token);
+      approvalToken = parsedToken?.approvalToken || null;
+    } catch (error) {
+      console.error("Error parsing token from cookies:", error);
+    }
+  }
+
+  console.log(approvalToken);
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
@@ -56,8 +64,6 @@ const AuthProvider = ({ children }) => {
       setLoginChecking(false);
     }
   }, [token, Axios]);
-
-  console.log(user);
 
   const customSignIn = async (email, password) => {
     try {
