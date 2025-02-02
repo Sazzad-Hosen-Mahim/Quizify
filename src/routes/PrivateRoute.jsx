@@ -1,12 +1,17 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-// eslint-disable-next-line react/prop-types
-export default function PrivateRoute({ children }) {
+const roleBasedRoutes = {
+  admin: "/admin/dashboard",
+  examinee: "/examinee/dashboard",
+  candidate: "/candidate/dashboard",
+};
+
+export default function PrivateRoute({ children, allowedRoles = [] }) {
   const { pathname } = useLocation();
   const [user, setUser] = useState(null);
-  const userRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const userData = Cookies.get("user");
@@ -14,9 +19,7 @@ export default function PrivateRoute({ children }) {
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
-        console.log("Parsed user:", parsedUser);
-        userRef.current = parsedUser; // Store in ref to persist
-        setUser(parsedUser); // Update state
+        setUser(parsedUser);
       } catch (error) {
         console.error("Error parsing user data:", error);
         setUser(null);
@@ -25,20 +28,29 @@ export default function PrivateRoute({ children }) {
       console.warn("No user data found in cookies");
       setUser(null);
     }
+
+    setLoading(false);
   }, [pathname]);
 
-  if (user === null) {
-    return <div>Loading...</div>; // Prevent navigation check until user state is set
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-  // Restrict admins from accessing "/dashboard"
-  if (user?.role === "admin" && pathname === "/dashboard") {
-    return <Navigate to="/admin" replace />;
+  if (!user) {
+    console.log("User not found, redirecting to login");
+    return <Navigate to="/login" replace state={{ path: pathname }} />;
   }
 
-  if (user?.id) {
-    return children;
+  console.log(`User role: ${user.role}, Allowed roles: ${allowedRoles}`);
+
+  if (!allowedRoles.includes(user.role)) {
+    console.log(
+      `Unauthorized access to ${pathname}, redirecting to ${
+        roleBasedRoutes[user.role] || "/"
+      }`
+    );
+    return <Navigate to={roleBasedRoutes[user.role] || "/"} replace />;
   }
 
-  return <Navigate to="/login" replace state={{ path: pathname }} />;
+  return children;
 }

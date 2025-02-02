@@ -8,18 +8,42 @@ import {
 } from "@heroui/react";
 
 import { Link, NavLink } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../hooks/AuthContextProvider";
 import { motion } from "framer-motion";
 import UserPopover from "@/components/UserPopover";
-
+import Cookies from "js-cookie";
 import { Icons } from "@/assets/icons/Icons";
 import toast from "react-hot-toast";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { user, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userData = Cookies.get("user");
+
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        setUser(null);
+      }
+    } else {
+      console.warn("No user data found in cookies");
+      setUser(null);
+    }
+
+    setLoading(false);
+  }, []);
+
+  console.log(user);
 
   return (
     <Navbar
@@ -108,7 +132,15 @@ export default function Header() {
         {user && user.userStatus !== "banned" ? (
           <Button
             as={Link}
-            to={user.role === "admin" ? "/admin" : "/dashboard/profile"}
+            to={
+              user.role === "admin"
+                ? "/admin/dashboard"
+                : user.role === "examinee"
+                ? "/examinee/dashboard"
+                : user.role === "candidate"
+                ? "/candidate/dashboard"
+                : "/"
+            }
             color="primary"
             size="sm"
             variant="bordered"

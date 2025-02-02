@@ -4,31 +4,38 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { Separator } from './ui/separator';
+import { Separator } from "./ui/separator";
 
-import { ModeToggle } from './ui/ModeToggle';
-import { Button } from '@heroui/react';
+import { ModeToggle } from "./ui/ModeToggle";
+import { Button } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const UserPopover = ({ user, logout }) => {
-  const handleLogout = () => {
-    logout()
-      .then(() => {
-        console.log('User logged out');
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const handleLogout = async () => {
+    try {
+      await logout();
+      console.log("User logged out");
+      setIsOpen(false); // Close popover after logout
+      navigate("/login"); // Navigate after closing
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  console.log(user);
+
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Avatar>
-          <AvatarImage src={user?.avatar} />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src={user?.id} />
+          <AvatarFallback>{user?.id.slice(0, 2)}</AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent

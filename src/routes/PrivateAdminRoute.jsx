@@ -46,9 +46,7 @@ export default function PrivateAdminRoute({ children }) {
 
   // Redirect if user is not an admin
   if (persistentUser?.role !== "admin") {
-    return (
-      <Navigate to="/dashboard" replace state={{ path: location.pathname }} />
-    );
+    return <Navigate to="/" replace state={{ path: location.pathname }} />;
   }
 
   return children;

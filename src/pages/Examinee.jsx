@@ -1,5 +1,13 @@
+import CommonWrapper from "../components/CommonWrapper";
+
 const Examinee = () => {
-  return <div>Examinee</div>;
+  return (
+    <div>
+      <CommonWrapper>
+        <div>Examinee</div>
+      </CommonWrapper>
+    </div>
+  );
 };
 
 export default Examinee;

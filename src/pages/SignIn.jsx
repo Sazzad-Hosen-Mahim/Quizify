@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Button, Divider, Input } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -13,24 +14,24 @@ import { EyeSlashFilledIcon } from "@/assets/icons/EyeSlashFilledIcon";
 import { EyeFilledIcon } from "@/assets/icons/EyeFilledIcon";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { Icons } from "@/assets/icons/Icons";
-
-// import { AuthContext } from "@/hooks/AuthContextProvider";
 import usePostMutate from "@/hooks/shared/usePostMutate";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 // import useAxiosSecure from "@/hooks/useAxios";
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
-  // const { user, setUser, googleSignIn } = useContext(AuthContext);
-  const [user, setUser] = useState(null);
   useEffect(() => {
     if (user) {
       navigate("/");
     }
   }, []);
+
+  // cookies part
 
   const userData = Cookies.get("user");
   let sortedData = null;
@@ -45,8 +46,6 @@ const SignIn = () => {
   useEffect(() => {
     setUser(sortedData);
   }, []);
-  // console.log(JSON.parse(sortedData));
-  // console.log(user);
 
   const {
     control,
@@ -57,7 +56,8 @@ const SignIn = () => {
   const location = useLocation();
 
   const { path } = location.state || {};
-  // console.log(path);
+
+  console.log(user);
   const [isVisible, setIsVisible] = useState(false);
   const onSuccess = (res) => {
     console.log(res, "res");
@@ -67,7 +67,16 @@ const SignIn = () => {
     Cookies.set("user", JSON.stringify(res?.data), { expires: 30 });
     setUser(res?.data);
     setIsLoading(false);
-    navigate(path || "/admin");
+    const role = res?.data?.role; // Get role directly from response
+    if (role === "admin") {
+      navigate("/admin/dashboard");
+    } else if (role === "examinee") {
+      navigate("/examinee/dashboard");
+    } else if (role === "candidate") {
+      navigate("/candidate/dashboard");
+    } else {
+      navigate("/"); // Default route if role is not found
+    }
   };
   const onError = (err) => {
     console.log(err);
@@ -86,30 +95,7 @@ const SignIn = () => {
   };
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-  // const Axios = useAxiosSecure();
 
-  // const providerSignIn = async (payload) => {
-  //   const token = await payload.user.getIdToken();
-  //   console.log(token);
-
-  //   const response = await Axios.post(
-  //     "/auth/provider",
-  //     {},
-  //     {
-  //       headers: {
-  //         Authorization: token,
-  //       },
-  //     }
-  //   );
-  //   toast.success("Successfully logged in");
-  //   // setUser(response?.data?.data?.user);
-  //   navigate(path || "/admin");
-  //   Cookies.set("user", response?.data?.data?.accessToken, { expires: 30 });
-
-  //   console.log(response?.data);
-
-  //   return response;
-  // };
   return (
     <motion.div
       variants={containerVariants}
@@ -121,10 +107,10 @@ const SignIn = () => {
       <Link to={"/"}>
         <Icons.logoICon className=" absolute hidden md:flex  text-danger  top-10 left-10" />
       </Link>
-      {/* <Helmet>
+      <Helmet>
         <title>Sign In | Jobify</title>
         <link rel="canonical" href="https://jobify-bd6c2.web.app/" />
-      </Helmet> */}
+      </Helmet>
 
       <div className=" w-full min-h-screen  mx-auto md:grid grid-cols-3  h-full   items-center justify-center">
         <div className="banner-Container flex-1 hidden md:flex  col-span-2   justify-center items-center  h-full w-full dark:bg-darkish    bg-no-repeat  mx-auto  ">
@@ -173,7 +159,6 @@ const SignIn = () => {
                     </div>
                   )}
                 />
-
                 <Controller
                   name="password"
                   control={control}
@@ -229,27 +214,6 @@ const SignIn = () => {
                   </div>
                   <Divider className="flex-1" />
                 </div>
-                {/* <Button
-                  color="secondary"
-                  onClick={() => {
-                    googleSignIn()
-                      .then((result) => {
-                        // setUser(result.user);
-
-                        setIsLoading(false);
-                        console.log(result);
-                        if (result?.user) {
-                          providerSignIn(result);
-                        }
-                      })
-                      .catch((error) => {
-                        console.log(error);
-                      });
-                  }}
-                >
-                  <Icons.google className="mr-2 h-4 w-4" />
-                  Continue with Google
-                </Button> */}
               </form>
             </CardContent>
             <CardFooter></CardFooter>

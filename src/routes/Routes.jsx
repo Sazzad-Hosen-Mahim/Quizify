@@ -8,6 +8,7 @@ import Admin from "../pages/Admin";
 import PrivateAdminRoute from "./PrivateAdminRoute";
 import Examinee from "../pages/Examinee";
 import PrivateRoute from "./PrivateRoute";
+import Candidate from "../pages/Candidate";
 
 const routes = createBrowserRouter([
   {
@@ -20,30 +21,34 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        index: true,
         path: "/login",
         element: <SignIn />,
       },
       {
-        index: true,
         path: "/signup",
         element: <SignUp />,
       },
       {
-        index: true,
-        path: "/admin",
+        path: "/admin/dashboard",
         element: (
-          <PrivateAdminRoute>
+          <PrivateRoute allowedRoles={["admin"]}>
             <Admin />
-          </PrivateAdminRoute>
+          </PrivateRoute>
         ),
       },
       {
-        index: true,
-        path: "/dashboard",
+        path: "/examinee/dashboard",
         element: (
-          <PrivateRoute>
+          <PrivateRoute allowedRoles={["examinee"]}>
             <Examinee />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/candidate/dashboard",
+        element: (
+          <PrivateRoute allowedRoles={["candidate"]}>
+            <Candidate />
           </PrivateRoute>
         ),
       },
