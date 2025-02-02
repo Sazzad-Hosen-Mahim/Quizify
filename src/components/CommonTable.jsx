@@ -14,11 +14,64 @@ import {
   Button,
   useDisclosure,
 } from "@heroui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../hooks/useAxios";
+import Cookies from "js-cookie";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { MdOpenInNew } from "react-icons/md";
 
 const CommonTable = ({ allUsers }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedUser, setSelectedUser] = useState(null);
+  const [users, setUsers] = useState(Array.isArray(allUsers) ? allUsers : []);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
+  const Axios = useAxiosSecure();
+
+  useEffect(() => {
+    if (Array.isArray(allUsers)) {
+      setUsers(allUsers);
+    }
+  }, [allUsers]);
+
+  // Get token from cookies
+  const token = Cookies.get("user");
+  let approvalToken = null;
+  if (token) {
+    try {
+      const parsedToken = JSON.parse(token);
+      approvalToken = parsedToken?.approvalToken || null;
+    } catch (error) {
+      console.error("Error parsing token from cookies:", error);
+    }
+  }
+
+  // Handle delete confirmation modal
+  const confirmDelete = (id) => {
+    setUserToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!userToDelete) return;
+
+    try {
+      await Axios.delete(`/user/deleteUser/${userToDelete}`, {
+        headers: { Authorization: approvalToken },
+      });
+
+      // Remove user immediately from state
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user.id !== userToDelete)
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setUserToDelete(null);
+    }
+  };
 
   const handleDetailsClick = (user) => {
     setSelectedUser(user);
@@ -27,7 +80,7 @@ const CommonTable = ({ allUsers }) => {
 
   return (
     <>
-      <Table isStriped aria-label="Example static collection table">
+      <Table isStriped aria-label="Users Table">
         <TableHeader>
           <TableColumn className="bg-blue-500 text-black py-4">
             NAME
@@ -41,7 +94,7 @@ const CommonTable = ({ allUsers }) => {
           </TableColumn>
         </TableHeader>
         <TableBody>
-          {(Array.isArray(allUsers) ? allUsers : []).map((user) => (
+          {users.map((user) => (
             <TableRow
               key={user?._id}
               className="hover:bg-gray-800 hover:rounded-lg"
@@ -57,10 +110,13 @@ const CommonTable = ({ allUsers }) => {
                     className="bg-teal-500 py-2 px-4 rounded-lg text-black font-semibold hover:bg-cyan-600"
                     onClick={() => handleDetailsClick(user)}
                   >
-                    Details
+                    <MdOpenInNew />
                   </button>
-                  <button className="bg-red-500 py-2 px-4 rounded-lg font-semibold hover:bg-red-700">
-                    Delete
+                  <button
+                    className="bg-red-500 py-2 px-4 rounded-lg font-semibold hover:bg-red-700"
+                    onClick={() => confirmDelete(user?.id)}
+                  >
+                    <RiDeleteBin6Fill className="text-xl" />
                   </button>
                 </div>
               </TableCell>
@@ -74,22 +130,12 @@ const CommonTable = ({ allUsers }) => {
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         backdrop="opaque"
-        classNames={{
-          body: "py-6",
-          backdrop: "bg-[#589492]/15 backdrop-opacity-20",
-          base: "border-[#292f46] bg-[#19172c] dark:bg-[#19172c] text-[#a8b0d3]",
-          header: "border-b-[1px] border-[#292f46]",
-          footer: "border-t-[1px] border-[#292f46]",
-          closeButton: "hover:bg-white/5 active:bg-white/10",
-        }}
         radius="lg"
       >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                User Details
-              </ModalHeader>
+              <ModalHeader>User Details</ModalHeader>
               <ModalBody>
                 {selectedUser && (
                   <div>
@@ -113,6 +159,36 @@ const CommonTable = ({ allUsers }) => {
               </ModalFooter>
             </>
           )}
+        </ModalContent>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onOpenChange={() => setIsDeleteModalOpen(false)}
+        backdrop="opaque"
+        radius="lg"
+      >
+        <ModalContent>
+          <ModalHeader>Confirm Deletion</ModalHeader>
+          <ModalBody>
+            <p>Are you sure you want to delete this user?</p>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              className="bg-red-500 hover:bg-red-700"
+              onClick={handleDeleteConfirm}
+            >
+              Yes, Delete
+            </Button>
+            <Button
+              color="foreground"
+              variant="light"
+              onClick={() => setIsDeleteModalOpen(false)}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
