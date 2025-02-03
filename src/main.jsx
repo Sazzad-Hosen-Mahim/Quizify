@@ -9,6 +9,7 @@ import { RouterProvider } from "react-router-dom";
 import routes from "./routes/routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HeroUIProvider } from "@heroui/react";
+import { TokenProvider } from "./hooks/TokenContext";
 
 const queryClient = new QueryClient();
 
@@ -19,24 +20,26 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AuthProvider>
-              <main className="min-h-screen  overflow-hidden font-fira text-foreground bg-background">
-                <RouterProvider
-                  location={location}
-                  key={location}
-                  router={routes}
+              <TokenProvider>
+                <main className="min-h-screen  overflow-hidden font-fira text-foreground bg-background">
+                  <RouterProvider
+                    location={location}
+                    key={location}
+                    router={routes}
+                  />
+                </main>
+                <Toaster
+                  position="bottom-left"
+                  toastOptions={{
+                    duration: 3000,
+                    style: {
+                      borderRadius: "5px",
+                      background: "#333",
+                      color: "#fff",
+                    },
+                  }}
                 />
-              </main>
-              <Toaster
-                position="bottom-left"
-                toastOptions={{
-                  duration: 3000,
-                  style: {
-                    borderRadius: "5px",
-                    background: "#333",
-                    color: "#fff",
-                  },
-                }}
-              />
+              </TokenProvider>
             </AuthProvider>
           </ThemeProvider>
         </QueryClientProvider>

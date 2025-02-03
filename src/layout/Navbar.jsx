@@ -52,7 +52,7 @@ export default function Header() {
       maxWidth="2xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className=" bg-black/30 py-2 z-50 text-white dark:bg-background/50 backdrop-blur-sm fixed top-0 "
+      className=" bg-black/30 py-2 z-50 text-black dark:bg-gradient-to-r from-[rgb(11,183,222)] to-[rgb(1,68,173)] backdrop-blur-sm fixed top-0 "
       classNames={{
         item: [
           "flex",

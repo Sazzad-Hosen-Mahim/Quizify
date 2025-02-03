@@ -16,9 +16,9 @@ import {
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../hooks/useAxios";
-import Cookies from "js-cookie";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { MdOpenInNew } from "react-icons/md";
+import { useToken } from "../hooks/TokenContext";
 
 const CommonTable = ({ allUsers }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -27,6 +27,9 @@ const CommonTable = ({ allUsers }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
 
+  // retrieve token from context
+  const { approvalToken } = useToken();
+
   const Axios = useAxiosSecure();
 
   useEffect(() => {
@@ -34,18 +37,6 @@ const CommonTable = ({ allUsers }) => {
       setUsers(allUsers);
     }
   }, [allUsers]);
-
-  // Get token from cookies
-  const token = Cookies.get("user");
-  let approvalToken = null;
-  if (token) {
-    try {
-      const parsedToken = JSON.parse(token);
-      approvalToken = parsedToken?.approvalToken || null;
-    } catch (error) {
-      console.error("Error parsing token from cookies:", error);
-    }
-  }
 
   // Handle delete confirmation modal
   const confirmDelete = (id) => {
@@ -96,7 +87,7 @@ const CommonTable = ({ allUsers }) => {
         <TableBody>
           {users.map((user) => (
             <TableRow
-              key={user?._id}
+              key={user?._id || user?.email}
               className="hover:bg-gray-800 hover:rounded-lg"
             >
               <TableCell className="py-4">
