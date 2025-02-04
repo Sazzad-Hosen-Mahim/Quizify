@@ -6,13 +6,15 @@ const TokenContext = createContext();
 
 export const TokenProvider = ({ children }) => {
   const [approvalToken, setApprovalToken] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = Cookies.get("user");
-    if (token) {
+    const user = Cookies.get("user");
+    if (user) {
       try {
-        const parsedToken = JSON.parse(token);
-        setApprovalToken(parsedToken?.approvalToken || null);
+        const parsedUser = JSON.parse(user);
+        setApprovalToken(parsedUser?.approvalToken || null);
+        setUser(parsedUser);
       } catch (error) {
         console.error("Error parsing token from cookies:", error);
       }
@@ -20,7 +22,7 @@ export const TokenProvider = ({ children }) => {
   }, []);
 
   return (
-    <TokenContext.Provider value={{ approvalToken }}>
+    <TokenContext.Provider value={{ approvalToken, user }}>
       {children}
     </TokenContext.Provider>
   );

@@ -127,6 +127,21 @@ const Admin = () => {
         </div>
         <div>
           <CommonTable allUsers={allUsers} />
+          <div className="flex justify-end space-x-2 mt-4">
+            <button
+              className="px-4 py-2 bg-gray-600 text-white rounded disabled:opacity-50"
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              disabled={currentPage === 0}
+            >
+              Previous
+            </button>
+            <button
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </CommonWrapper>
 

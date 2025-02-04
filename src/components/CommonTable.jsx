@@ -88,7 +88,7 @@ const CommonTable = ({ allUsers }) => {
           {users.map((user) => (
             <TableRow
               key={user?._id || user?.email}
-              className="hover:bg-gray-800 hover:rounded-lg"
+              className="hover:bg-gray-800 hover:rounded-lg hover:text-white"
             >
               <TableCell className="py-4">
                 {user?.firstName} {user?.lastName}
