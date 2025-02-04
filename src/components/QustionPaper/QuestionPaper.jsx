@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import useAxiosSecure from "../../hooks/useAxios";
 import { useToken } from "../../hooks/TokenContext";
+import { motion } from "framer-motion";
 
 const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
   const [mcqSet, setMcqSet] = useState([]);
@@ -50,18 +53,20 @@ const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
   }, [isModalOpen, QPid, approvalToken]);
 
   return (
-    <div className="bg-gray-800 text-white p-6 rounded-xl shadow-lg w-full mb-4">
+    <div className="bg-gray-800  justify-center text-white p-6 rounded-xl shadow-lg w-full mb-4 pt-10">
       <h2 className="text-xl font-bold">{subject}</h2>
       <p className="text-gray-400">Duration: {duration} minutes</p>
       <p className="text-gray-400">Total Marks: {totalMarks}</p>
 
       {/* Show Details Button */}
-      <button
-        className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-        onClick={() => setIsModalOpen(true)}
-      >
-        Show Details
-      </button>
+       <motion.button
+      className="mt-4 bg-[rgba(93,197,183,0.8)] text-white px-6 py-2 rounded-2xl border-2 border-white shadow-lg"
+      whileHover={{ scale: 1.1, backgroundColor: "rgba(78, 234, 213, 1)", boxShadow: "0px 0px 10px rgba(78, 234, 213, 0.8)" }}
+      whileTap={{ scale: 0.9 }}
+      onClick={() => setIsModalOpen(true)}
+    >
+      Show Details
+    </motion.button>
 
       {/* Modal */}
       {isModalOpen && (
