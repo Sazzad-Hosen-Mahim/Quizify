@@ -11,69 +11,51 @@ import { Pagination } from "@heroui/react";
 const Examinee = () => {
   const [question, setQuestion] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // Number of items per page
+  const itemsPerPage = 6;
 
-  // Axios hook
   const Axios = useAxiosSecure();
-  // Approval Token
   const { approvalToken } = useToken();
 
   useEffect(() => {
     const getAllQuestionPaper = async () => {
       try {
-        console.log("Fetching data from API...");
-        console.log("Authorization Token:", approvalToken);
-
         const response = await Axios.get(
           "questionPaper/getAllQuestionPapersForExaminer",
-          {
-            headers: {
-              Authorization: approvalToken,
-            },
-          }
+          { headers: { Authorization: approvalToken } }
         );
 
-        console.log("Response Data:", response?.data);
         setQuestion(response?.data?.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
-        console.error(
-          "Response Data:",
-          error.response?.data || "No response data"
-        );
-        console.error("Status Code:", error.response?.status);
       }
     };
 
     getAllQuestionPaper();
   }, [approvalToken]);
 
-  // Calculate total pages
   const totalPages = Math.ceil(question.length / itemsPerPage);
-
-  // Get paginated data
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentQuestions = question.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="flex h-screen bg-gray-900 text-white">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Content Area */}
-
       <div className="w-3/4 p-6">
-        {/* Grid for Question Cards */}
+        {/* Search Bar - Add Here if Needed */}
+
         <div className="grid grid-cols-3 gap-4">
           {currentQuestions.length > 0 ? (
-            currentQuestions.map((data, index) => <QuestionCard key={index} {...data} QPid={data.id} />)
+            currentQuestions.map((data) => (
+              <QuestionCard key={data.id} {...data} QPid={data.id} />
+            ))
           ) : (
             <p className="text-red-500">No question papers available.</p>
           )}
         </div>
 
-        {/* Hero UI Pagination */}
+        {/* Pagination Fix */}
         {totalPages > 1 && (
           <div className="mt-6 flex justify-center">
             <Pagination
@@ -86,15 +68,6 @@ const Examinee = () => {
               rounded
             />
           </div>
-
-      <div className="w-3/4 p-6 grid grid-cols-3 gap-2">
-        {Array.isArray(question) && question.length > 0 ? (
-          question.map((data, index) => (
-            <QuestionCard key={index} {...data} QPid={data.id} />
-          ))
-        ) : (
-          <p className="text-red-500">No question papers available.</p>
-
         )}
       </div>
     </div>
