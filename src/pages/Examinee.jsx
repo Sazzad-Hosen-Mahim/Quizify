@@ -6,11 +6,7 @@ import QuestionCard from "../components/QustionPaper/QuestionPaper";
 
 
 
-
 const Examinee = () => {
- 
-
-  
 
   const [question, setQuestion] = useState([]);
 
@@ -48,16 +44,6 @@ const Examinee = () => {
   }, [approvalToken]);
 
   console.log(question);
-
-
-
-  
-
-
-
-
-  
-  
 
   return (
     <div className="flex h-screen bg-gray-900 text-white">

@@ -9,6 +9,9 @@ import Examinee from "../pages/Examinee";
 import PrivateRoute from "./PrivateRoute";
 import Candidate from "../pages/Candidate";
 import ExaminerQuestionPaper from "../components/Examiner/ExaminerQuestionPaper";
+// import ExaminerSingleQuestion from "../components/Examiner/ExaminerQuestionPaper";
+import ExaminerSingleQuestionNew from "../components/Examiner/ExaminerSingleQuestion";
+import ExaminerQuestionPaperDashboard from "../components/Examiner/ExaminerQuestionPaper";
 
 const routes = createBrowserRouter([
   {
@@ -48,15 +51,15 @@ const routes = createBrowserRouter([
         path: "/examinee/dashboard/questionPaper",
         element: (
           <PrivateRoute allowedRoles={["examinee"]}>
-            <ExaminerQuestionPaper />
+            <ExaminerQuestionPaperDashboard />
           </PrivateRoute>
         ),
       },
       {
-        path: "/examinee/dashboard/singleQuestion",
+        path: "/examinee/dashboard/singleQuestion/:id",
         element: (
           <PrivateRoute allowedRoles={["examinee"]}>
-            <ExaminerQuestionPaper />
+            <ExaminerSingleQuestionNew />
           </PrivateRoute>
         ),
       },
