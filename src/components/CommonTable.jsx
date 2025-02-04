@@ -69,6 +69,8 @@ const CommonTable = ({ allUsers }) => {
     onOpen();
   };
 
+  console.log(users);
+
   return (
     <>
       <Table isStriped aria-label="Users Table">

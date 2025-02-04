@@ -5,10 +5,10 @@ import NotFound from "../pages/NotFound";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Admin from "../pages/Admin";
-import PrivateAdminRoute from "./PrivateAdminRoute";
 import Examinee from "../pages/Examinee";
 import PrivateRoute from "./PrivateRoute";
 import Candidate from "../pages/Candidate";
+import ExaminerQuestionPaper from "../components/Examiner/ExaminerQuestionPaper";
 
 const routes = createBrowserRouter([
   {
@@ -41,6 +41,22 @@ const routes = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["examinee"]}>
             <Examinee />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/examinee/dashboard/questionPaper",
+        element: (
+          <PrivateRoute allowedRoles={["examinee"]}>
+            <ExaminerQuestionPaper />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/examinee/dashboard/singleQuestion",
+        element: (
+          <PrivateRoute allowedRoles={["examinee"]}>
+            <ExaminerQuestionPaper />
           </PrivateRoute>
         ),
       },
