@@ -7,7 +7,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
     {
       questionText: "",
       options: ["", "", "", ""],
-      correctAns: null, // Initially null
+      correctAns: "", // Change to empty string to allow number input directly
       mark: "", // Initially empty string
     },
   ]);
@@ -23,7 +23,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
       {
         questionText: "",
         options: ["", "", "", ""],
-        correctAns: null,
+        correctAns: "", // Initially empty string
         mark: "",
       },
     ]);
@@ -34,7 +34,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
     if (field === "questionText") {
       updatedQuestions[index].questionText = value;
     } else if (field === "correctAns") {
-      updatedQuestions[index].correctAns = Number(value);
+      updatedQuestions[index].correctAns = value !== "" ? parseInt(value) : ""; // Correct answer value as number
     } else if (field === "mark") {
       updatedQuestions[index].mark = Number(value);
     } else {
@@ -61,7 +61,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
       MCQSet: questions.map((q) => ({
         question: q.questionText,
         options: q.options,
-        correctAns: q.correctAns,
+        correctAns: q.correctAns !== "" ? q.correctAns : undefined, // Ensure it’s either a valid number or undefined
         mark: Number(q.mark),
       })),
     };
@@ -123,20 +123,13 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
             ))}
 
             {/* Correct Answer Dropdown */}
-            <select
+            <input
+              type="number"
+              placeholder="Enter Correct Answer Index (1-4)"
               className="w-full p-2 border mb-2"
-              value={q.correctAns ?? ""}
+              value={q.correctAns}
               onChange={(e) => handleChange(i, "correctAns", e.target.value)}
-            >
-              <option value="" disabled>
-                Select Correct Answer
-              </option>
-              {q.options.map((option, index) => (
-                <option key={index} value={index}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            />
 
             {/* Marks Input */}
             <input
