@@ -43,7 +43,7 @@ const Examinee = () => {
       <Sidebar />
 
       <div className="w-3/4 p-6">
-        {/* Search Bar - Add Here if Needed */}
+      
 
         <div className="grid grid-cols-3 gap-4">
           {currentQuestions.length > 0 ? (
@@ -55,7 +55,7 @@ const Examinee = () => {
           )}
         </div>
 
-        {/* Pagination Fix */}
+      
         {totalPages > 1 && (
           <div className="mt-6 flex justify-center">
             <Pagination
