@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <AuthProvider>
               <TokenProvider>
-                <main className="min-h-screen  overflow-hidden font-fira text-foreground bg-background">
+                <main className="min-h-screen overflow-hidden font-fira text-foreground bg-background">
                   <RouterProvider
                     location={location}
                     key={location}

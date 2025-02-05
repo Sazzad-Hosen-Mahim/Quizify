@@ -22,14 +22,13 @@ const ExaminerSingleQuestionNew = () => {
   const [newMcq, setNewMcq] = useState({
     question: "",
     options: ["", "", "", ""],
-    correctAns: 0,
+    correctAns: 1,
     mark: "",
   });
 
   const Axios = useAxiosSecure();
   const { approvalToken } = useToken();
 
-  // Fetch updated MCQSet
   const fetchQuestionPaper = async () => {
     try {
       const updatedData = await Axios.get(
@@ -64,24 +63,27 @@ const ExaminerSingleQuestionNew = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuestionPaper();
-  }, [showModal]);
-
   const handleCreate = () => setShowCreateModal(true);
 
   const handleCreateSubmit = async () => {
     try {
+      const payload = {
+        ...newMcq,
+        correctAns: Number(newMcq.correctAns), // Ensure correctAns is a number
+        mark: Number(newMcq.mark) || 0,
+      };
+
       await Axios.patch(
         `questionPaper/addNewMCQ?qid=${questionData?.data?.id}`,
-        newMcq,
+        payload,
         { headers: { Authorization: approvalToken } }
       );
+
       setShowCreateModal(false);
       setNewMcq({
         question: "",
         options: ["", "", "", ""],
-        correctAns: 0,
+        correctAns: 1,
         mark: "",
       });
       fetchQuestionPaper();
@@ -90,14 +92,26 @@ const ExaminerSingleQuestionNew = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name.startsWith("option")) {
+      const index = parseInt(name.replace("option", ""), 10) - 1;
+      setNewMcq((prev) => {
+        const updatedOptions = [...prev.options];
+        updatedOptions[index] = value;
+        return { ...prev, options: updatedOptions };
+      });
+    } else {
+      setNewMcq((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
   useEffect(() => {
     fetchQuestionPaper();
-  }, [showCreateModal]);
-
-  console.log("mcqSet:", mcqSet);
+  }, []);
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="flex bg-gray-900 text-white">
       <Sidebar />
       <div className="w-3/4 p-6 overflow-scroll overflow-x-clip">
         <div className="flex justify-between mb-2">
@@ -130,7 +144,7 @@ const ExaminerSingleQuestionNew = () => {
             <h2 className="text-xl font-semibold mb-3 text-green-400">
               MCQ Set
             </h2>
-            {Array.isArray(mcqSet) && mcqSet.length > 0 ? (
+            {mcqSet.length > 0 ? (
               mcqSet.map((mcq, index) => (
                 <div
                   key={mcq.mcqId}
@@ -148,21 +162,22 @@ const ExaminerSingleQuestionNew = () => {
                     </button>
                   </div>
                   <ul className="mt-2">
-                    {Array.isArray(mcq.options) ? (
-                      mcq.options.map((option, idx) => (
-                        <li
-                          key={idx}
-                          className={`ml-4 ${
-                            idx + 1 === mcq.correctAns ? "text-green-500" : ""
-                          }`}
-                        >
-                          {idx + 1}. {option}
-                        </li>
-                      ))
-                    ) : (
-                      <li className="text-red-500">No options available</li>
-                    )}
+                    {mcq.options.map((option, idx) => (
+                      <li
+                        key={idx}
+                        className={`ml-4 ${
+                          idx + 1 === mcq.correctAns
+                            ? "text-green-400 font-bold"
+                            : ""
+                        }`}
+                      >
+                        {idx + 1}. {option}
+                      </li>
+                    ))}
                   </ul>
+                  <p className="text-yellow-400 mt-2">
+                    <strong>Correct Answer:</strong> {mcq.correctAns}
+                  </p>
                 </div>
               ))
             ) : (
@@ -174,89 +189,89 @@ const ExaminerSingleQuestionNew = () => {
         )}
       </div>
 
-      {/* Delete Modal */}
+      {/* Delete Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-            <p className="text-lg mb-4">
-              Are you sure you want to delete this MCQ?
-            </p>
-            <div className="flex justify-end space-x-4">
-              <button
-                className="px-4 py-2 bg-gray-500 rounded-md"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-red-600 rounded-md"
-                onClick={confirmDelete}
-              >
-                Yes, Delete
-              </button>
-            </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+            <p className="mb-4">Are you sure you want to delete this MCQ?</p>
+            <button
+              onClick={confirmDelete}
+              className="bg-red-600 px-4 py-2 rounded-md text-white mr-2"
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => setShowModal(false)}
+              className="bg-gray-500 px-4 py-2 rounded-md text-white"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}
 
       {/* Create MCQ Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-            <h2 className="text-lg font-bold mb-4">Create New MCQ</h2>
-            <input
-              type="text"
-              placeholder="Question"
-              value={newMcq.question}
-              onChange={(e) =>
-                setNewMcq({ ...newMcq, question: e.target.value })
-              }
-              className="w-full p-2 mb-2 rounded bg-gray-700"
-            />
-            {newMcq.options.map((option, idx) => (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center w-1/2">
+            <h2 className="text-xl font-semibold mb-4 text-green-400">
+              Add MCQ
+            </h2>
+            <div>
               <input
-                key={idx}
                 type="text"
-                placeholder={`Option ${idx + 1}`}
-                value={option}
-                onChange={(e) => {
-                  const updatedOptions = [...newMcq.options];
-                  updatedOptions[idx] = e.target.value;
-                  setNewMcq({ ...newMcq, options: updatedOptions });
-                }}
-                className="w-full p-2 mb-2 rounded bg-gray-700"
+                name="question"
+                value={newMcq.question}
+                onChange={handleChange}
+                placeholder="Enter question"
+                className="w-full mb-2 p-2 rounded-md bg-gray-600 text-white"
               />
-            ))}
-            <input
-              type="number"
-              placeholder="Correct Answer Index (0-3)"
-              value={newMcq.correctAns}
-              onChange={(e) =>
-                setNewMcq({ ...newMcq, correctAns: parseInt(e.target.value) })
-              }
-              className="w-full p-2 mb-2 rounded bg-gray-700"
-            />
-            <input
-              type="number"
-              placeholder="Marks"
-              value={newMcq.mark}
-              onChange={(e) => setNewMcq({ ...newMcq, mark: e.target.value })}
-              className="w-full p-2 mb-4 rounded bg-gray-700"
-            />
-            <div className="flex justify-end space-x-4">
-              <button
-                className="px-4 py-2 bg-gray-500 rounded-md"
-                onClick={() => setShowCreateModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-teal-600 rounded-md"
-                onClick={handleCreateSubmit}
-              >
-                Create
-              </button>
             </div>
+            <div>
+              {newMcq.options.map((option, idx) => (
+                <input
+                  key={idx}
+                  type="text"
+                  name={`option${idx + 1}`}
+                  value={option}
+                  onChange={handleChange}
+                  placeholder={`Option ${idx + 1}`}
+                  className="w-full mb-2 p-2 rounded-md bg-gray-600 text-white"
+                />
+              ))}
+            </div>
+            <div>
+              <input
+                type="number"
+                name="correctAns"
+                value={newMcq.correctAns}
+                onChange={handleChange}
+                placeholder="Correct Answer (1-4)"
+                className="w-full mb-2 p-2 rounded-md bg-gray-600 text-white"
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                name="mark"
+                value={newMcq.mark}
+                onChange={handleChange}
+                placeholder="Mark"
+                className="w-full mb-4 p-2 rounded-md bg-gray-600 text-white"
+              />
+            </div>
+            <button
+              onClick={handleCreateSubmit}
+              className="bg-teal-600 px-4 py-2 rounded-md text-white mr-2"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setShowCreateModal(false)}
+              className="bg-gray-500 px-4 py-2 rounded-md text-white"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}

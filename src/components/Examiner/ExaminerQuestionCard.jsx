@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxios";
 import { useToken } from "../../hooks/TokenContext";
@@ -6,7 +7,10 @@ import { useToken } from "../../hooks/TokenContext";
 const ExaminerQuestionCard = ({ question }) => {
   const { duration, examineeId, subject, totalMarks, id } = question;
 
-  //retrieve token
+  // Manage local state to track deletion
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  // Retrieve token
   const { approvalToken } = useToken();
 
   const navigate = useNavigate();
@@ -35,7 +39,29 @@ const ExaminerQuestionCard = ({ question }) => {
     }
   };
 
-  console.log(question);
+  const handleDelete = async () => {
+    try {
+      const response = await Axios.delete(
+        `questionPaper/deleteQuestionPaper?qid=${id}&examineeId=${examineeId}`,
+        {
+          headers: {
+            Authorization: approvalToken,
+          },
+        }
+      );
+
+      if (response?.data) {
+        console.log("Deleted Successfully:", response.data);
+        // Immediately update state to remove from UI
+        setIsDeleted(true);
+      }
+    } catch (error) {
+      console.error("Error deleting question:", error);
+    }
+  };
+
+  if (isDeleted) return null; // Hide the component after deletion
+
   return (
     <div className="bg-[#124E66] p-3 w-full rounded-lg shadow-medium mt-3">
       <h1>Duration: {duration}</h1>
@@ -44,9 +70,15 @@ const ExaminerQuestionCard = ({ question }) => {
       <p>Total Marks: {totalMarks}</p>
       <button
         onClick={handleShowDetails}
-        className="mt-5  bg-[#748D92]  px-5 py-2 text-black hover:bg-[#212A31] hover:text-white  rounded-lg shadow-lg"
+        className="mt-5 bg-[#748D92] px-5 py-2 text-black hover:bg-[#212A31] hover:text-white rounded-lg shadow-lg"
       >
         Show Details
+      </button>
+      <button
+        onClick={handleDelete}
+        className="mt-5 ms-3 bg-red-500 px-5 py-2 text-white hover:bg-red-700 hover:text-black rounded-lg shadow-lg"
+      >
+        Delete Question Paper
       </button>
     </div>
   );
