@@ -1,16 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAxiosSecure from "../../hooks/useAxios";
 import { useToken } from "../../hooks/TokenContext";
 
 const ExaminerSingleQuestionNew = () => {
   const location = useLocation();
-  const questionData = location.state || {};
-  const [mcqSet, setMcqSet] = useState(
-    Array.isArray(questionData.data?.MCQSet) ? questionData.data.MCQSet : []
-  );
+  const questionData = location.state || { data: { MCQSet: [] } };
+
+  const [mcqSet, setMcqSet] = useState(() => {
+    return Array.isArray(questionData?.data?.MCQSet)
+      ? questionData.data.MCQSet
+      : [];
+  });
 
   const [showModal, setShowModal] = useState(false);
   const [selectedMcqId, setSelectedMcqId] = useState(null);
@@ -21,11 +25,26 @@ const ExaminerSingleQuestionNew = () => {
     correctAns: 0,
     mark: "",
   });
+
   const Axios = useAxiosSecure();
-
-  //Approval Token
-
   const { approvalToken } = useToken();
+
+  // Fetch updated MCQSet
+  const fetchQuestionPaper = async () => {
+    try {
+      const updatedData = await Axios.get(
+        `questionPaper/getSingleQuestionPaper/${questionData?.data?.id}`,
+        { headers: { Authorization: approvalToken } }
+      );
+      setMcqSet(
+        Array.isArray(updatedData.data?.data?.MCQSet)
+          ? updatedData.data.data.MCQSet
+          : []
+      );
+    } catch (error) {
+      console.error("Failed to fetch question paper", error);
+    }
+  };
 
   const handleDeleteClick = (mcqId) => {
     setSelectedMcqId(mcqId);
@@ -34,39 +53,30 @@ const ExaminerSingleQuestionNew = () => {
 
   const confirmDelete = async () => {
     try {
-      // Make the delete request first
       await Axios.delete(
         `questionPaper/removeMCQ?qid=${questionData?.data?.id}&mcqId=${selectedMcqId}`,
-        {
-          headers: {
-            Authorization: approvalToken,
-          },
-        }
+        { headers: { Authorization: approvalToken } }
       );
-      // If the deletion is successful, update the state
-      setMcqSet(mcqSet.filter((mcq) => mcq.mcqId !== selectedMcqId));
       setShowModal(false);
+      fetchQuestionPaper();
     } catch (error) {
       console.error("Failed to delete MCQ", error);
     }
   };
 
-  const handleCreate = () => {
-    setShowCreateModal(true);
-  };
+  useEffect(() => {
+    fetchQuestionPaper();
+  }, [showModal]);
+
+  const handleCreate = () => setShowCreateModal(true);
 
   const handleCreateSubmit = async () => {
     try {
-      const response = await Axios.patch(
+      await Axios.patch(
         `questionPaper/addNewMCQ?qid=${questionData?.data?.id}`,
         newMcq,
-        {
-          headers: {
-            Authorization: approvalToken,
-          },
-        }
+        { headers: { Authorization: approvalToken } }
       );
-      setMcqSet([...mcqSet, response.data]);
       setShowCreateModal(false);
       setNewMcq({
         question: "",
@@ -74,10 +84,17 @@ const ExaminerSingleQuestionNew = () => {
         correctAns: 0,
         mark: "",
       });
+      fetchQuestionPaper();
     } catch (error) {
       console.error("Failed to create MCQ", error);
     }
   };
+
+  useEffect(() => {
+    fetchQuestionPaper();
+  }, [showCreateModal]);
+
+  console.log("mcqSet:", mcqSet);
 
   return (
     <div className="flex h-screen bg-gray-900 text-white">
@@ -94,10 +111,11 @@ const ExaminerSingleQuestionNew = () => {
             Add MCQ
           </button>
         </div>
+
         {questionData ? (
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
             <p>
-              <strong>ID:</strong> {questionData.id}
+              <strong>ID:</strong> {questionData?.data?.id}
             </p>
             <p>
               <strong>Subject:</strong> {questionData?.data?.subject}
@@ -108,39 +126,55 @@ const ExaminerSingleQuestionNew = () => {
             <p>
               <strong>Duration:</strong> {questionData?.data?.duration} minutes
             </p>
+
             <h2 className="text-xl font-semibold mb-3 text-green-400">
               MCQ Set
             </h2>
-            {mcqSet.map((mcq, index) => (
-              <div
-                key={mcq.mcqId}
-                className="bg-gray-700 p-4 rounded-md shadow-md mb-4"
-              >
-                <div className="flex justify-between">
-                  <p className="font-bold">
-                    Q{index + 1}: {mcq.question}
-                  </p>
-                  <button
-                    onClick={() => handleDeleteClick(mcq.mcqId)}
-                    className="bg-red-600 p-1 rounded-md mt-2"
-                  >
-                    <MdDelete className="fill-white w-6 h-6" />
-                  </button>
+            {Array.isArray(mcqSet) && mcqSet.length > 0 ? (
+              mcqSet.map((mcq, index) => (
+                <div
+                  key={mcq.mcqId}
+                  className="bg-gray-700 p-4 rounded-md shadow-md mb-4"
+                >
+                  <div className="flex justify-between">
+                    <p className="font-bold">
+                      Q{index + 1}: {mcq.question}
+                    </p>
+                    <button
+                      onClick={() => handleDeleteClick(mcq.mcqId)}
+                      className="bg-red-600 p-1 rounded-md mt-2"
+                    >
+                      <MdDelete className="fill-white w-6 h-6" />
+                    </button>
+                  </div>
+                  <ul className="mt-2">
+                    {Array.isArray(mcq.options) ? (
+                      mcq.options.map((option, idx) => (
+                        <li
+                          key={idx}
+                          className={`ml-4 ${
+                            idx + 1 === mcq.correctAns ? "text-green-500" : ""
+                          }`}
+                        >
+                          {idx + 1}. {option}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-red-500">No options available</li>
+                    )}
+                  </ul>
                 </div>
-                <ul className="mt-2">
-                  {mcq.options.map((option, idx) => (
-                    <li key={idx} className="ml-4">
-                      {idx + 1}. {option}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-400">No MCQs available.</p>
+            )}
           </div>
         ) : (
           <p>No details available</p>
         )}
       </div>
+
+      {/* Delete Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
@@ -164,6 +198,8 @@ const ExaminerSingleQuestionNew = () => {
           </div>
         </div>
       )}
+
+      {/* Create MCQ Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">

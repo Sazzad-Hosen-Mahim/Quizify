@@ -41,7 +41,6 @@ const Examinee = () => {
       <Sidebar />
 
       <div className="w-3/4 p-6">
-
         <div className="grid grid-cols-3 gap-4">
           {currentQuestions.length > 0 ? (
             currentQuestions.map((data) => (
@@ -51,7 +50,6 @@ const Examinee = () => {
             <p className="text-red-500">No question papers available.</p>
           )}
         </div>
-
 
         {totalPages > 1 && (
           <div className="mt-6 flex justify-center">
