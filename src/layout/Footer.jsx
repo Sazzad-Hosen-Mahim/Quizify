@@ -13,7 +13,7 @@ const Footer = () => {
             to={'/'}
             className="flex items-center  justify-center text-base font-semibold"
           >
-            Healthify
+            Quizify
           </Link>
         </div>
         <div className="flex gap-8 justify-center">
@@ -28,7 +28,7 @@ const Footer = () => {
 
       <div className="pb-8 flex flex-col md:flex-row  gap-4 justify-between items-center ">
         <p className="text-tiny  text-light-50  text-center">
-          2023 <span className=" hover:text-danger"> Pewds. </span> All right
+          2025 <span className=" hover:text-danger"> Pewds. </span> All right
           reserved.
         </p>
         <ul className=" list-none flex justify-center flex-wrap items-center   gap-4">
