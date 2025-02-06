@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 import useAxiosSecure from "../../hooks/useAxios";
 import { useToken } from "../../hooks/TokenContext";
 
@@ -13,6 +14,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
   ]);
   const [subject, setSubject] = useState("");
   const [duration, setDuration] = useState(""); // Keep as string initially, convert later
+  // console.log(typeof duration);
 
   const Axios = useAxiosSecure();
   const { approvalToken } = useToken();
@@ -57,12 +59,12 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
 
     const payload = {
       subject,
-      duration: Number(duration),
+      duration: parseInt(duration) * 60000 , // Convert to minutes
       MCQSet: questions.map((q) => ({
         question: q.questionText,
         options: q.options,
         correctAns: q.correctAns !== "" ? q.correctAns : undefined, // Ensure it’s either a valid number or undefined
-        mark: Number(q.mark),
+        mark: parseInt(q.mark),
       })),
     };
 
@@ -83,12 +85,12 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white text-white p-6 rounded-lg w-96 max-h-[80vh] overflow-y-auto">
+      <div className="bg-[#18714D] text-white p-6 rounded-lg w-96 max-h-[80vh] overflow-y-auto">
         <h2 className="text-xl mb-4">Create Question Paper</h2>
         <input
           type="text"
           placeholder="Enter Subject"
-          className="w-full p-2 border mb-2"
+          className="w-full p-2 rounded-md mb-2 bg-black"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
@@ -96,7 +98,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
         <input
           type="number"
           placeholder="Enter Duration (in minutes)"
-          className="w-full p-2 border mb-4"
+          className="w-full p-2 rounded-md mb-2 bg-black"
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
         />
@@ -106,7 +108,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
             <input
               type="text"
               placeholder="Enter Question"
-              className="w-full p-2 border border-red-500 mb-2"
+              className="w-full p-2 rounded-md mb-2 bg-black"
               value={q.questionText}
               onChange={(e) => handleChange(i, "questionText", e.target.value)}
             />
@@ -116,7 +118,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
                 key={j}
                 type="text"
                 placeholder={`Option ${j + 1}`}
-                className="w-full p-2 border mb-1"
+                className="w-full p-2 rounded-md mb-2 bg-black"
                 value={option}
                 onChange={(e) => handleChange(i, j, e.target.value)}
               />
@@ -126,7 +128,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
             <input
               type="number"
               placeholder="Enter Correct Answer Index (1-4)"
-              className="w-full p-2 border mb-2"
+              className="w-full p-2 rounded-md mb-2 bg-black"
               value={q.correctAns}
               onChange={(e) => handleChange(i, "correctAns", e.target.value)}
             />
@@ -135,7 +137,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
             <input
               type="number"
               placeholder="Enter Marks"
-              className="w-full p-2 border mb-4"
+              className="w-full p-2 rounded-md mb-2 bg-black"
               value={q.mark}
               onChange={(e) => handleChange(i, "mark", e.target.value)}
             />
@@ -144,21 +146,25 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
 
         <button
           onClick={addQuestion}
-          className="bg-green-500 text-white p-2 w-full mb-2"
+          className="bg-white text-black p-2 w-full mb-2 hover:bg-gray-300 rounded-md"
         >
-          +
+          Add Question
         </button>
         <div className="flex justify-between">
-          <button onClick={onClose} className="bg-gray-500 text-white p-2">
+          <button onClick={onClose} className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-400">
             Cancel
           </button>
-          <button onClick={handleSubmit} className="bg-blue-500 text-white p-2">
+          <button onClick={handleSubmit} className="bg-black text-white p-2 rounded-md hover:bg-gray-800">
             Submit
           </button>
         </div>
       </div>
     </div>
   );
+};
+CreateQuestionPaperModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onQuestionAdded: PropTypes.func.isRequired,
 };
 
 export default CreateQuestionPaperModal;

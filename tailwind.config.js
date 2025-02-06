@@ -1,3 +1,5 @@
+/* eslint-disable no-dupe-keys */
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 const {heroui} = require("@heroui/react");
 
@@ -20,6 +22,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        mainBlue: "#3498db", 
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
