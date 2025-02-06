@@ -12,6 +12,7 @@ import Candidate from "../pages/Candidate";
 import ExaminerSingleQuestionNew from "../components/Examiner/ExaminerSingleQuestion";
 import ExaminerQuestionPaperDashboard from "../components/Examiner/ExaminerQuestionPaper";
 import Contact from "../pages/Contact";
+import About from "../components/About/About";
 
 const routes = createBrowserRouter([
   {
@@ -27,6 +28,11 @@ const routes = createBrowserRouter([
         index: true,
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        index: true,
+        path: "/about",
+        element: <About />,
       },
       {
         path: "/login",

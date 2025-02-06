@@ -67,7 +67,7 @@ export default function Header() {
           "data-[active=true]:after:right-0",
           "data-[active=true]:after:h-[2px]",
           "data-[active=true]:after:rounded-[2px]",
-          'data-[active=true]:after:bg-[#428ee6]',
+          "data-[active=true]:after:bg-[#428ee6]",
           "data-[active=true]:text-danger",
           "data-[active=false]:hover:text-danger",
         ],
@@ -115,6 +115,19 @@ export default function Header() {
                 )}
               </NavLink>
             </motion.div>
+            <motion.div variants={childVariant}>
+              <NavLink to="/about">
+                {({ isActive }) => (
+                  <NavbarItem
+                    className="text-black dark:text-white hover:text-danger font-bold link-underline"
+                    isActive={isActive}
+                  >
+                    {" "}
+                    About{" "}
+                  </NavbarItem>
+                )}
+              </NavLink>
+            </motion.div>
 
             <motion.div variants={childVariant}>
               <NavLink to="/contact" aria-current="page">
@@ -146,7 +159,6 @@ export default function Header() {
             size="lg"
             variant="bordered"
             className="hidden text-white md:flex border-none font-medium md:me-24"
-            
           >
             {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
@@ -161,7 +173,6 @@ export default function Header() {
             size="lg"
             variant="bordered"
             className="hidden text-white md:flex border-none font-medium"
-           
           >
             {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
@@ -216,7 +227,6 @@ export default function Header() {
               to={"/login"}
               size="md"
               className="text-white text-md font-bold bg-mainBlue px-16 rounded-sm"
-             
             >
               <MdLogin />
               Login
