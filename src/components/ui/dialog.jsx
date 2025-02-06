@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { X } from "lucide-react";
+// import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Dialog({ open, onOpenChange, children }) {
@@ -33,13 +33,13 @@ export function DialogContent({ children }) {
   return <div className="p-4">{children}</div>;
 }
 
-export function DialogHeader({ children, onClose }) {
+export function DialogHeader({ children }) {
   return (
     <div className="flex justify-between items-center p-4 border-b">
       <div className="text-lg font-semibold">{children}</div>
-      <button className="text-gray-500 hover:text-gray-700" onClick={onClose}>
+      {/* <button className="text-gray-500 hover:text-gray-700" onClick={onClose}>
         <X size={20} />
-      </button>
+      </button> */}
     </div>
   );
 }
