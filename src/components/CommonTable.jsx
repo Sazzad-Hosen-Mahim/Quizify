@@ -75,14 +75,14 @@ const CommonTable = ({ allUsers }) => {
     <>
       <Table isStriped aria-label="Users Table">
         <TableHeader>
-          <TableColumn className="bg-blue-500 text-black py-4">
+          <TableColumn className="bg-mainBlue text-black py-4">
             NAME
           </TableColumn>
-          <TableColumn className="bg-blue-500 text-black py-4">ID</TableColumn>
-          <TableColumn className="bg-blue-500 text-black py-4">
+          <TableColumn className="bg-mainBlue text-black py-4">ID</TableColumn>
+          <TableColumn className="bg-mainBlue text-black py-4">
             EMAIL
           </TableColumn>
-          <TableColumn className="bg-blue-500 text-black border-r-1 py-4">
+          <TableColumn className="bg-mainBlue text-black border-r-1 py-4">
             STATUS
           </TableColumn>
         </TableHeader>

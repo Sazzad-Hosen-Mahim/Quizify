@@ -64,7 +64,7 @@ const ExaminerQuestionCard = ({ question }) => {
 
   return (
     <div className="bg-[#124E66] p-3 w-full rounded-lg shadow-medium mt-3">
-      <h1>Duration: {duration}</h1>
+      <h1>Duration: {duration / 60000}</h1>
       <p>Examinee Id: {examineeId}</p>
       <p>Subject: {subject}</p>
       <p>Total Marks: {totalMarks}</p>

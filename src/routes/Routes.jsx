@@ -8,10 +8,10 @@ import Admin from "../pages/Admin";
 import Examinee from "../pages/Examinee";
 import PrivateRoute from "./PrivateRoute";
 import Candidate from "../pages/Candidate";
-import ExaminerQuestionPaper from "../components/Examiner/ExaminerQuestionPaper";
 // import ExaminerSingleQuestion from "../components/Examiner/ExaminerQuestionPaper";
 import ExaminerSingleQuestionNew from "../components/Examiner/ExaminerSingleQuestion";
 import ExaminerQuestionPaperDashboard from "../components/Examiner/ExaminerQuestionPaper";
+import Contact from "../pages/Contact";
 
 const routes = createBrowserRouter([
   {
@@ -22,6 +22,11 @@ const routes = createBrowserRouter([
         index: true,
         path: "/",
         element: <Home />,
+      },
+      {
+        index: true,
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/login",

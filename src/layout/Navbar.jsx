@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Navbar,
   NavbarContent,
@@ -13,8 +14,8 @@ import { AuthContext } from "../hooks/AuthContextProvider";
 import { motion } from "framer-motion";
 import UserPopover from "@/components/UserPopover";
 import Cookies from "js-cookie";
-import { Icons } from "@/assets/icons/Icons";
 import toast from "react-hot-toast";
+import { MdLogin } from "react-icons/md";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +53,7 @@ export default function Header() {
       maxWidth="2xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className=" bg-black/30 py-2 z-50 text-black dark:bg-gradient-to-r from-[rgb(11,183,222)] to-[rgb(1,68,173)] backdrop-blur-sm fixed top-0 "
+      className="bg-black text-white dark:bg-transparent backdrop-blur-[1.5px] fixed top-0 border-b-[1px] border-[#428ee6] z-50"
       classNames={{
         item: [
           "flex",
@@ -66,7 +67,7 @@ export default function Header() {
           "data-[active=true]:after:right-0",
           "data-[active=true]:after:h-[2px]",
           "data-[active=true]:after:rounded-[2px]",
-          // 'data-[active=true]:after:bg-[#428ee6]',
+          'data-[active=true]:after:bg-[#428ee6]',
           "data-[active=true]:text-danger",
           "data-[active=false]:hover:text-danger",
         ],
@@ -88,7 +89,7 @@ export default function Header() {
             arial-label="home-page"
             className={` ml-4 flex shrink-0 grow-0 justify-center`}
           >
-            <h1 className="text-2xl font-bold">Quizzy</h1>
+            <h1 className="text-2xl font-bold dark:text-white">Quizify</h1>
           </NavLink>
         </motion.div>
       </NavbarContent>
@@ -97,7 +98,7 @@ export default function Header() {
         <div className="hidden md:flex gap-8">
           <motion.div
             initial="hidden"
-            className="flex gap-6"
+            className="flex gap-12"
             animate="visible"
             variants={menuVariant}
           >
@@ -105,7 +106,7 @@ export default function Header() {
               <NavLink to="/">
                 {({ isActive }) => (
                   <NavbarItem
-                    className="hover:text-danger link-underline"
+                    className="text-black dark:text-white hover:text-danger font-bold link-underline"
                     isActive={isActive}
                   >
                     {" "}
@@ -119,7 +120,7 @@ export default function Header() {
               <NavLink to="/contact" aria-current="page">
                 {({ isActive }) => (
                   <NavbarItem
-                    className="hover:text-danger link-underline"
+                    className="hover:text-danger font-bold dark:text-white link-underline"
                     isActive={isActive}
                   >
                     Contact
@@ -142,12 +143,10 @@ export default function Header() {
                 : "/"
             }
             color="primary"
-            size="sm"
+            size="lg"
             variant="bordered"
-            className="hidden md:flex border-divider font-medium"
-            startContent={
-              <Icons.settings className="animate-spinner-ease-spin" />
-            }
+            className="hidden text-white md:flex border-none font-medium md:me-24"
+            
           >
             {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
@@ -159,12 +158,10 @@ export default function Header() {
               )
             }
             color="primary"
-            size="sm"
+            size="lg"
             variant="bordered"
-            className="hidden md:flex border-divider font-medium"
-            startContent={
-              <Icons.settings className="animate-spinner-ease-spin" />
-            }
+            className="hidden text-white md:flex border-none font-medium"
+           
           >
             {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
@@ -217,11 +214,11 @@ export default function Header() {
             <Button
               as={Link}
               to={"/login"}
-              color="default"
-              size="sm"
-              className="text-white"
-              variant="flat"
+              size="md"
+              className="text-white text-md font-bold bg-mainBlue px-16 rounded-sm"
+             
             >
+              <MdLogin />
               Login
             </Button>
           </div>
