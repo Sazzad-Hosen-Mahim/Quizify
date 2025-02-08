@@ -19,7 +19,7 @@ export function Dialog({ open, onOpenChange, children }) {
       ></div>
       <div
         className={cn(
-          "bg-white rounded-lg shadow-lg p-6 w-full max-w-md transition-transform",
+          "bg-[#055766] rounded-lg shadow-lg p-6 w-full max-w-md transition-transform",
           open ? "scale-100" : "scale-95"
         )}
       >
