@@ -61,7 +61,7 @@ const Service = () => {
         {quizzes.map((quiz, index) => (
           <div
             key={index}
-            className={`border border-white p-6 rounded-lg bg-transparent hover:bg-mainBlue/30 transition-all duration-300 shadow-lg flex flex-col justify-center items-center ${quiz.className}`}
+            className={`border border-white p-6 rounded-lg bg-transparent hover:bg-mainBlue/30  transition-all duration-300 shadow-lg flex flex-col justify-center items-center ${quiz.className}`}
           >
             <span className="text-5xl">{quiz.icon}</span>
             <h3 className="text-xl font-semibold text-white mt-3">
