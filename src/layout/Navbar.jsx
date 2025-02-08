@@ -22,8 +22,12 @@ export default function Header() {
 
   const { logout } = useContext(AuthContext);
 
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+
+  
 
   useEffect(() => {
     const userData = Cookies.get("user");
@@ -178,9 +182,9 @@ export default function Header() {
           </Button>
         )}
 
-        <div className=" hidden md:block">{/* <ModeToggle /> */}</div>
+        <div className=" hidden md:block h-50vh">{/* <ModeToggle /> */} </div>
       </NavbarContent>
-      <NavbarMenu>
+      <NavbarMenu className="bg-mainBlue !h-[350px]">
         <NavLink to="/">
           {({ isActive }) => (
             <NavbarItem
