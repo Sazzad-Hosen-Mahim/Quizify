@@ -43,16 +43,16 @@ const UserPopover = ({ user, logout }) => {
         align="end"
         sideOffset={6}
         alignOffset={0}
-        className=" z-[1000] bg-[#26262ada] backdrop-blur-2xl text-white rounded-lg backdrop-contrast-125 backdrop-saturate-200 border-[#262626]"
+        className=" z-[1000] bg-[#26262ada] backdrop-blur-2xl pt-3 text-white rounded-lg backdrop-contrast-125 backdrop-saturate-200 border-[#262626]"
       >
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center ">
           <p className="text-lg ">{user?.email}</p>
           <Separator className="my-4" />
           <ModeToggle />
           <Button
             fullWidth
             variant="light"
-            className=" bg-[#27272A] rounded-xl py-1 px-4 text-white"
+            className=" bg-[#27272A] rounded-xl py-1 px-4 text-white mt-3"
             onClick={() => handleLogout()}
           >
             Logout
