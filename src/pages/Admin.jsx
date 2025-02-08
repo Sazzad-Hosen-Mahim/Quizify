@@ -15,6 +15,8 @@ const Admin = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [limit] = useState(10);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   // Axios hook
   const Axios = useAxiosSecure();
 
@@ -24,6 +26,8 @@ const Admin = () => {
   // Get all users
   useEffect(() => {
     const getAllUsers = async () => {
+      if (!approvalToken) return;
+
       try {
         const response = await Axios.get("/user/getAllUser", {
           headers: {
@@ -33,40 +37,43 @@ const Admin = () => {
         setAllUsers(response?.data?.body || []);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
+
     getAllUsers();
-  }, [Axios, approvalToken]);
+    // Delay API call by 1 second
+    // const delayFetch = setTimeout(() => {
+    //   getAllUsers();
+    // }, 1000);
+
+    // return () => clearTimeout(delayFetch); // Cleanup function to clear timeout if component unmounts
+  }, [approvalToken, Axios]);
 
   // search functionality
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        if (!searchTerm) {
-          const response = await Axios.get("/user/getAllUser", {
-            headers: { Authorization: approvalToken },
-          });
-          setAllUsers(response?.data?.body || []);
-          return;
-        }
+        const endpoint = searchTerm
+          ? `/search/searchForAdmin?searchTerm=${searchTerm}&limit=${limit}&page=${currentPage}`
+          : "/user/getAllUser";
 
-        const response = await Axios.get(
-          `/search/searchForAdmin?searchTerm=${searchTerm}&limit=${limit}&page=${currentPage}`,
-          {
-            headers: { Authorization: approvalToken },
-          }
-        );
+        const response = await Axios.get(endpoint, {
+          headers: { Authorization: approvalToken },
+        });
 
-        console.log("Search Response:", response.data);
-        const users = response?.data?.data;
+        const users = searchTerm ? response?.data?.data : response?.data?.body;
 
         if (Array.isArray(users)) {
           setAllUsers(users.length ? users : []);
         } else {
           console.warn("Unexpected response structure:", response.data);
+          setAllUsers([]);
         }
       } catch (error) {
         console.error("Error fetching users:", error);
+        setAllUsers([]);
       }
     };
 
@@ -97,6 +104,14 @@ const Admin = () => {
   const onSubmit = (data) => {
     mutate(data);
   };
+
+  if (!approvalToken) {
+    return <div>Loading...</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>

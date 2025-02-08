@@ -45,7 +45,7 @@ const CommonTable = ({ allUsers }) => {
   };
 
   const handleDeleteConfirm = async () => {
-    if (!userToDelete) return;
+    if (!userToDelete || !approvalToken) return;
 
     try {
       await Axios.delete(`/user/deleteUser/${userToDelete}`, {

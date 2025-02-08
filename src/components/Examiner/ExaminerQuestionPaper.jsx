@@ -88,7 +88,7 @@ const ExaminerQuestionPaperDashboard = () => {
       <Sidebar />
 
       {/* Content Area */}
-      <div className="w-3/4 p-6 h-screen bg-cyan-800/50">
+      <div className="w-3/4 p-6  bg-cyan-800/50">
         <div className="flex justify-between mb-5 pe-8 ">
           <h1 className="text-2xl font-bold">Examinee Question Paper</h1>
           <div className="relative flex items-center">

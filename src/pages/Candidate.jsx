@@ -182,7 +182,7 @@ const Candidate = () => {
   };
 
   return (
-    <div className="flex h-screen bg-cyan-800/50 text-white">
+    <div className="flex  bg-cyan-800/50 text-white">
       <div className="w-1/4 dark:bg-black p-5 flex flex-col gap-4 border-r border-gray-700">
         <h2 className="text-xl font-bold text-center"> Dashboard</h2>
         <button

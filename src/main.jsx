@@ -19,8 +19,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <HeroUIProvider>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-            <AuthProvider>
-              <TokenProvider>
+            <TokenProvider>
+              <AuthProvider>
                 <main className="min-h-screen overflow-hidden font-fira text-foreground bg-background">
                   <RouterProvider
                     location={location}
@@ -39,8 +39,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     },
                   }}
                 />
-              </TokenProvider>
-            </AuthProvider>
+              </AuthProvider>
+            </TokenProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </HeroUIProvider>

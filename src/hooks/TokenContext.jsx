@@ -21,6 +21,19 @@ export const TokenProvider = ({ children }) => {
     }
   }, []);
 
+  // Listen for cookie changes manually
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const user = Cookies.get("user");
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        setApprovalToken(parsedUser?.approvalToken || null);
+      }
+    }, 1000); // Polling every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <TokenContext.Provider value={{ approvalToken, user }}>
       {children}
@@ -28,6 +41,4 @@ export const TokenProvider = ({ children }) => {
   );
 };
 
-export const useToken = () => {
-  return useContext(TokenContext);
-};
+export const useToken = () => useContext(TokenContext);
