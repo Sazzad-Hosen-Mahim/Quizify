@@ -1,18 +1,20 @@
 const Contact = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gray-900 p-6">
+    <div className="flex flex-col md:flex-row items-center justify-center py-16 bg-cyan-800/40 p-6">
       {/* Left Side - Image */}
       <div className="md:w-3/5 flex justify-center">
-        <img 
-          src="/src/assets/banner-contact/5.png" 
-          alt="Contact" 
-          className="w-full max-w-lg rounded-lg shadow-lg"
+        <img
+          src="/src/assets/banner-contact/5.png"
+          alt="Contact"
+          className="w-full max-w-lg rounded-lg"
         />
       </div>
 
       {/* Right Side - Contact Form */}
-      <div className="md:w-2/5 bg-transparent p-8 rounded-lg shadow-lg mt-6 md:mt-0 md:ml-8 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-white mb-4 text-center">For Any <span className="text-yellow-500">Queries</span></h2>
+      <div className="md:w-2/5 bg-transparent p-8 rounded-lg shadow-large mt-6 md:mt-0 md:ml-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-white mb-4 text-center">
+          For Any <span className="text-yellow-500">Queries</span>
+        </h2>
 
         <form className="space-y-6">
           <div className="relative">
