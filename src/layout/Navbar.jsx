@@ -192,14 +192,14 @@ export default function Header() {
           )}
         </NavLink>
 
-        <NavLink to="/tests" aria-current="page">
+        <NavLink to="/about" aria-current="page">
           {({ isActive }) => (
             <NavbarItem
               onClick={() => setIsMenuOpen(false)}
               className="hover:text-danger h-fit mb-4"
               isActive={isActive}
             >
-              Tests
+              About
             </NavbarItem>
           )}
         </NavLink>
