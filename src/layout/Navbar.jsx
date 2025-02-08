@@ -215,6 +215,35 @@ export default function Header() {
             </NavbarItem>
           )}
         </NavLink>
+       
+
+        {user && user.userStatus !== "banned" ? (
+          <NavLink
+            to={
+              user.role === "admin"
+                ? "/admin/dashboard"
+                : user.role === "examinee"
+                ? "/examinee/dashboard"
+                : user.role === "candidate"
+                ? "/candidate/dashboard"
+                : "/"
+            }
+          >
+            {({ isActive }) => (
+              <NavbarItem
+                onClick={() => setIsMenuOpen(false)}
+                className="hover:text-danger h-fit mb-4"
+                isActive={isActive}
+              >
+                Profile
+              </NavbarItem>
+            )}
+          </NavLink>
+        ) : (
+          <NavbarItem className="text-gray-400 cursor-not-allowed h-fit mb-4">
+            Banned (No Access)
+          </NavbarItem>
+        )}
       </NavbarMenu>
 
       <NavbarContent justify="end" className="flex gap-12">
