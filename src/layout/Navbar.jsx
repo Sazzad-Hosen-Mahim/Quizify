@@ -22,12 +22,8 @@ export default function Header() {
 
   const { logout } = useContext(AuthContext);
 
-
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-
-  
 
   useEffect(() => {
     const userData = Cookies.get("user");
@@ -219,7 +215,6 @@ export default function Header() {
             </NavbarItem>
           )}
         </NavLink>
-       
 
         {user && user.userStatus !== "banned" ? (
           <NavLink

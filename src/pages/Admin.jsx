@@ -6,6 +6,7 @@ import { useToken } from "../hooks/TokenContext";
 import usePostMutate from "../hooks/shared/usePostMutate";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
+import { Spinner } from "@heroui/react";
 
 const Admin = () => {
   const [allUsers, setAllUsers] = useState([]);
@@ -106,11 +107,19 @@ const Admin = () => {
   };
 
   if (!approvalToken) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (

@@ -12,17 +12,29 @@ import { Separator } from "./ui/separator";
 import { ModeToggle } from "./ui/ModeToggle";
 import { Button } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const UserPopover = ({ user, logout }) => {
+  const [avatar, setAvatar] = useState(null);
+  // console.log(avatar);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setAvatar(user?.id.slice(0, 2)); // Set avatar when user is available
+    } else {
+      setAvatar(""); // Reset avatar when user is not available
+    }
+  }, [user]); // This runs only when `user` changes
+
   const handleLogout = async () => {
     try {
       await logout();
       console.log("User logged out");
       setIsOpen(false); // Close popover after logout
       navigate("/login"); // Navigate after closing
+      setAvatar(null);
     } catch (err) {
       console.error(err);
     }
@@ -35,7 +47,7 @@ const UserPopover = ({ user, logout }) => {
       <PopoverTrigger asChild>
         <Avatar>
           <AvatarImage src={user?.id} />
-          <AvatarFallback>{user?.id.slice(0, 2)}</AvatarFallback>
+          <AvatarFallback>{avatar}</AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent
