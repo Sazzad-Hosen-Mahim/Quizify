@@ -53,7 +53,7 @@ export default function Header() {
       maxWidth="2xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-black text-white dark:bg-transparent backdrop-blur-[1.5px] fixed top-0 border-b-[1px] border-[#428ee6] z-50"
+      className="bg-black text-white dark:bg-transparent backdrop-blur-[1.5px] fixed top-0 border-b-[1px] border-gray-500 z-50"
       classNames={{
         item: [
           "flex",

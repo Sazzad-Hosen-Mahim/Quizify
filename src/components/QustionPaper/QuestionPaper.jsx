@@ -25,14 +25,19 @@ const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
 
       try {
         console.log("Fetching MCQs with Token:", approvalToken);
-        const response = await Axios.get(`questionPaper/getSingleQuestionPaper/${QPid}`, {
-          headers: { Authorization: approvalToken },
-        });
+        const response = await Axios.get(
+          `questionPaper/getSingleQuestionPaper/${QPid}`,
+          {
+            headers: { Authorization: approvalToken },
+          }
+        );
 
         console.log("Full API Response:", response.data);
 
         if (!isCancelled) {
-          const mcqs = Array.isArray(response.data?.data?.MCQSet) ? response?.data?.data.MCQSet : [];
+          const mcqs = Array.isArray(response.data?.data?.MCQSet)
+            ? response?.data?.data.MCQSet
+            : [];
           setMcqSet([...mcqs]);
         }
       } catch (err) {
@@ -53,25 +58,29 @@ const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
   }, [isModalOpen, QPid, approvalToken]);
 
   return (
-    <div className="bg-gray-800  justify-center text-white p-6 rounded-xl shadow-lg w-full mb-4 pt-10">
+    <div className="dark:bg-black  justify-center text-white p-6 rounded-xl shadow-lg w-full mb-4 pt-10">
       <h2 className="text-xl font-bold">{subject}</h2>
       <p className="text-gray-400">Duration: {duration} minutes</p>
       <p className="text-gray-400">Total Marks: {totalMarks}</p>
 
       {/* Show Details Button */}
-       <motion.button
-      className="mt-4 bg-[rgba(93,197,183,0.8)] text-white px-6 py-2 rounded-2xl border-2 border-white shadow-lg"
-      whileHover={{ scale: 1.1, backgroundColor: "rgba(78, 234, 213, 1)", boxShadow: "0px 0px 10px rgba(78, 234, 213, 0.8)" }}
-      whileTap={{ scale: 0.9 }}
-      onClick={() => setIsModalOpen(true)}
-    >
-      Show Details
-    </motion.button>
+      <motion.button
+        className="mt-4 bg-[rgba(93,197,183,0.8)] text-white px-6 py-2 rounded-lg border-2 border-white shadow-lg"
+        whileHover={{
+          scale: 1.1,
+          backgroundColor: "rgba(78, 234, 213, 1)",
+          boxShadow: "0px 0px 10px rgba(78, 234, 213, 0.8)",
+        }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsModalOpen(true)}
+      >
+        Show Details
+      </motion.button>
 
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-900 p-6 rounded-lg shadow-xl w-11/12 md:w-3/4 lg:w-1/2 max-h-[80vh] overflow-y-auto relative">
+          <div className="bg-[#055766] p-6 rounded-lg shadow-xl w-11/12 md:w-3/4 lg:w-1/2 max-h-[80vh] overflow-y-auto relative">
             {/* Close Button */}
             <button
               className="absolute top-3 right-4 text-gray-300 hover:text-white text-xl"
@@ -80,7 +89,9 @@ const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
               ✖
             </button>
 
-            <h3 className="text-2xl font-semibold text-white mb-4">MCQ Details</h3>
+            <h3 className="text-2xl font-semibold text-white mb-4">
+              MCQ Details
+            </h3>
 
             {loading && <p className="text-yellow-400">Loading MCQs...</p>}
             {error && <p className="text-red-500">{error}</p>}
@@ -88,8 +99,13 @@ const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
             {mcqSet.length > 0 ? (
               <div className="space-y-4">
                 {mcqSet.map((mcq, index) => (
-                  <div key={mcq.mcqId || index} className="p-4 bg-gray-800 rounded-md">
-                    <p className="font-bold">{mcq?.question || "No Question Found"}</p>
+                  <div
+                    key={mcq.mcqId || index}
+                    className="p-4 bg-black rounded-md"
+                  >
+                    <p className="font-bold">
+                      {mcq?.question || "No Question Found"}
+                    </p>
                     <ul className="mt-2">
                       {mcq?.options && mcq.options.length > 0 ? (
                         mcq.options.map((option, i) => (
@@ -102,9 +118,12 @@ const QuestionCard = ({ id, subject, duration, totalMarks, QPid }) => {
                       )}
                     </ul>
                     <p className="text-green-400">
-                      Correct Answer: {mcq?.options?.[mcq?.correctAns - 1] || "Not Available"}
+                      Correct Answer:{" "}
+                      {mcq?.options?.[mcq?.correctAns - 1] || "Not Available"}
                     </p>
-                    <p className="text-yellow-300">Marks: {mcq?.mark || "N/A"}</p>
+                    <p className="text-yellow-300">
+                      Marks: {mcq?.mark || "N/A"}
+                    </p>
                   </div>
                 ))}
               </div>

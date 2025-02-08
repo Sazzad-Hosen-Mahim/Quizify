@@ -23,7 +23,7 @@ const Header = () => {
           </p>
           <button
             onClick={navigate("/login")}
-            className="bg-[#1CCDF6] text-black px-6 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-yellow-500 transition flex gap-4 items-center justify-center"
+            className="bg-[#1CCDF6]/80 text-black px-6 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-yellow-500 transition flex gap-4 items-center justify-center"
           >
             <h1>Let&apos;s Get Start</h1>
             <button>
