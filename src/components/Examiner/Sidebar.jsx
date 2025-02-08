@@ -10,7 +10,7 @@ const Sidebar = () => {
 
       <Link
         to="/examinee/dashboard"
-        className={`flex items-center gap-2 p-3 rounded-lg hover:bg-gray-700 ps-12 ${
+        className={`flex items-center gap-2 p-3 rounded-lg hover:bg-gray-800 ps-12 ${
           location.pathname === "/examinee/dashboard" ? "bg-mainBlue" : ""
         }`}
       >
@@ -19,7 +19,7 @@ const Sidebar = () => {
 
       <Link
         to="/examinee/dashboard/questionPaper"
-        className={`flex items-center gap-2 p-3 rounded-lg hover:bg-gray-700 ps-12 ${
+        className={`flex items-center gap-2 p-3 rounded-lg hover:bg-gray-800 ps-12 ${
           location.pathname.startsWith("/examinee/dashboard/questionPaper") ||
           location.pathname.startsWith("/examinee/dashboard/singleQuestion")
             ? "bg-mainBlue"

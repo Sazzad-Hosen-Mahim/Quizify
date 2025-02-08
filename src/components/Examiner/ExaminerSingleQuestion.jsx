@@ -139,7 +139,8 @@ const ExaminerSingleQuestionNew = () => {
               <strong>Total Marks:</strong> {questionData?.data?.totalMarks}
             </p>
             <p>
-              <strong>Duration:</strong> {questionData?.data?.duration} minutes
+              <strong>Duration:</strong> {questionData?.data?.duration / 60000}{" "}
+              minutes
             </p>
 
             <h2 className="text-xl font-semibold mb-3 text-green-400">
