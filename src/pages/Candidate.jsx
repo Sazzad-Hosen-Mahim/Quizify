@@ -182,12 +182,12 @@ const Candidate = () => {
       <div className="w-1/4 bg-gray-800 p-5 flex flex-col gap-4 border-r border-gray-700">
         <h2 className="text-xl font-bold text-center"> Dashboard</h2>
         <button
-          className={`flex items-center gap-2 p-3 rounded-lg hover:bg-gray-700 ps-12 ${
+          className={`flex items-center   gap-2  rounded-lg hover:bg-gray-700    ${
             activeTab === "exams" ? "bg-gray-700" : ""
           }`}
           onClick={() => setActiveTab("exams")}
         >
-          <FileText size={20} /> Question Paper
+          <FileText size={20} className=""/> Question Paper
         </button>
       </div>
       <div className="w-3/4 p-6">
@@ -204,34 +204,35 @@ const Candidate = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        {activeTab === "exams" && (
-          <div className="grid grid-cols-3 gap-4">
-            {questionPapers.length > 0 ? (
-              questionPapers.map((data) => (
-                <div
-                  key={data.id}
-                  className="bg-gray-800 p-4 rounded-lg shadow-lg"
-                >
-                  <h2 className="text-lg font-semibold">{data.subject}</h2>
-                  <p className="text-gray-400 flex">
-                  <span className="pt-1 pr-1 text-red-400"><MdTimer /></span>  Duration: {data.duration/60000} mins
-                  </p>
-                  <p className="text-gray-400">
-                    Total Marks: {data.totalMarks}
-                  </p>
-                  <button
-                    className="mt-3 w-full bg-[#65F6C4] hover:bg-blue-700 text-black p-2 rounded-lg"
-                    onClick={() => startExam(data)}
-                  >
-                   <span className="flex gap-3 font-semibold justify-center"><CirclePlay />Start Exam</span>  
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p className="text-red-500">No question papers available.</p>
-            )}
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  {questionPapers.length > 0 ? (
+    questionPapers.map((data) => (
+      <div
+        key={data.id}
+        className="bg-gray-800 p-4 rounded-lg shadow-lg"
+      >
+        <h2 className="text-lg font-semibold">{data.subject}</h2>
+        <p className="text-gray-400 flex">
+          <span className="pt-1 pr-1 text-red-400"><MdTimer /></span>  
+          Duration: {data.duration / 60000} mins
+        </p>
+        <p className="text-gray-400">
+          Total Marks: {data.totalMarks}
+        </p>
+        <button
+          className="mt-3 w-full bg-[#65F6C4] hover:bg-blue-700 text-black p-2 rounded-lg"
+          onClick={() => startExam(data)}
+        >
+          <span className="flex gap-3 font-semibold justify-center">
+            <CirclePlay /> Start Exam
+          </span>  
+        </button>
+      </div>
+    ))
+  ) : (
+    <p className="text-red-500">No question papers available.</p>
+  )}
+  </div>
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-gray-800 text-white max-h-[70vh] h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
@@ -241,7 +242,7 @@ const Candidate = () => {
           </DialogHeader>
           <div className="space-y-4 h-[55vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
             {mcqs.map((mcq) => (
-              <div key={mcq.id} className="p-3 bg-gray-700 rounded">
+              <div key={mcq.id} className="p-3 bg-black rounded">
                 <p className="font-semibold">{mcq.question}</p>
                 {mcq.options.map((option, index) => (
                   <label key={index} className="flex items-center gap-2">
@@ -277,14 +278,14 @@ const Candidate = () => {
           </DialogHeader>
 
           {result && (
-            <div className="p-4">
+            <div className="p-4 ">
               
               <p className="text-xl font-semibold text-black pb-2 ">
                 Acquired Marks: <span className="text-red-600 font-semibold">{result.acquiredMark}</span> / <span className="text-green-600 font-semibold">{result.totalMarks}</span>
               </p>
               <div className="space-y-3">
                 {result.reportSheet?.map((report, index) => (
-                  <div key={index} className="p-3 bg-gray-700 rounded">
+                  <div key={index} className="p-3 bg-black rounded-md">
                     <p className="font-semibold ">
                       Question ID: {report.questionId}
                     </p>
@@ -297,7 +298,7 @@ const Candidate = () => {
           )}
           <DialogFooter>
             <button
-              className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg w-full"
+              className="bg-red-600/80 hover:bg-red-700 text-white p-2 rounded-lg w-full"
               onClick={() => setIsResultModalOpen(false)}
             >
               Close
