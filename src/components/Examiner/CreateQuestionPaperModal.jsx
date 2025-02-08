@@ -59,7 +59,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
 
     const payload = {
       subject,
-      duration: parseInt(duration) * 60000 , // Convert to minutes
+      duration: parseInt(duration) * 60000, // Convert to minutes
       MCQSet: questions.map((q) => ({
         question: q.questionText,
         options: q.options,
@@ -85,7 +85,7 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-[#18714D] text-white p-6 rounded-lg w-96 max-h-[80vh] overflow-y-auto">
+      <div className="bg-cyan-500/40 text-white p-6 rounded-lg w-96 max-h-[80vh] overflow-y-auto">
         <h2 className="text-xl mb-4">Create Question Paper</h2>
         <input
           type="text"
@@ -150,11 +150,17 @@ const CreateQuestionPaperModal = ({ onClose, onQuestionAdded }) => {
         >
           Add Question
         </button>
-        <div className="flex justify-between">
-          <button onClick={onClose} className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-400">
+        <div className="mt-3 flex justify-end gap-4 items-center">
+          <button
+            onClick={onClose}
+            className="bg-slate-800 text-white p-2 rounded-md hover:bg-slate-900 shadow-lg"
+          >
             Cancel
           </button>
-          <button onClick={handleSubmit} className="bg-black text-white p-2 rounded-md hover:bg-gray-800">
+          <button
+            onClick={handleSubmit}
+            className="bg-sky-600 text-black py-2 px-4 rounded-md hover:bg-sky-700 hover:text-white shadow-lg"
+          >
             Submit
           </button>
         </div>

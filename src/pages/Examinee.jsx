@@ -37,10 +37,10 @@ const Examinee = () => {
   const currentQuestions = question.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white">
+    <div className="flex h-screen  text-white">
       <Sidebar />
 
-      <div className="w-3/4 p-6">
+      <div className="w-3/4 p-6 bg-cyan-800/50">
         <div className="grid grid-cols-3 gap-4">
           {currentQuestions.length > 0 ? (
             currentQuestions.map((data) => (

@@ -111,23 +111,24 @@ const ExaminerSingleQuestionNew = () => {
   }, []);
 
   return (
-    <div className="flex bg-gray-900 text-white">
+    <div className="flex bg-cyan-800/50 h-screen text-white">
       <Sidebar />
       <div className="w-3/4 p-6 overflow-scroll overflow-x-clip">
         <div className="flex justify-between mb-2">
-          <h1 className="text-2xl font-bold mb-4 text-blue-400">
-            Examinee Unique Single Paper
-          </h1>
+          <h1 className="text-2xl font-bold mb-4 text-white">Question Paper</h1>
           <button
             onClick={handleCreate}
-            className="bg-teal-600 px-4 py-2 rounded-lg text-white"
+            className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white hover:bg-white group rounded-lg"
           >
-            Add MCQ
+            <span className="w-48 h-48 rounded rotate-[-40deg] bg-teal-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+            <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+              Add MCQ
+            </span>
           </button>
         </div>
 
         {questionData ? (
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div className="bg-black p-6 rounded-lg shadow-lg">
             <p>
               <strong>ID:</strong> {questionData?.data?.id}
             </p>
