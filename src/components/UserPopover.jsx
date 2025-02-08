@@ -43,7 +43,7 @@ const UserPopover = ({ user, logout }) => {
         align="end"
         sideOffset={6}
         alignOffset={0}
-        className=" z-[1000] bg-[#26262ada] backdrop-blur-2xl pt-3 text-white rounded-lg backdrop-contrast-125 backdrop-saturate-200 border-[#262626]"
+        className=" z-[1000] bg-[#26262ada]  backdrop-blur-2xl pt-3 text-white rounded-lg backdrop-contrast-125 backdrop-saturate-200 border-[#262626]"
       >
         <div className="flex flex-col items-center ">
           <p className="text-lg ">{user?.email}</p>
