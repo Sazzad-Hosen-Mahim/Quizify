@@ -11,11 +11,9 @@ import { Spinner } from "@heroui/react";
 const Admin = () => {
   const [allUsers, setAllUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [limit] = useState(10);
-
   const [isLoading, setIsLoading] = useState(true);
 
   // Axios hook
@@ -44,12 +42,6 @@ const Admin = () => {
     };
 
     getAllUsers();
-    // Delay API call by 1 second
-    // const delayFetch = setTimeout(() => {
-    //   getAllUsers();
-    // }, 1000);
-
-    // return () => clearTimeout(delayFetch); // Cleanup function to clear timeout if component unmounts
   }, [approvalToken, Axios]);
 
   // search functionality
@@ -106,6 +98,12 @@ const Admin = () => {
     mutate(data);
   };
 
+  const totalPages = Math.ceil(allUsers.length / limit);
+  const currentData = allUsers.slice(
+    currentPage * limit,
+    (currentPage + 1) * limit
+  );
+
   if (!approvalToken) {
     return (
       <div className="h-screen w-full flex justify-center items-center">
@@ -150,7 +148,7 @@ const Admin = () => {
           </button>
         </div>
         <div>
-          <CommonTable allUsers={allUsers} />
+          <CommonTable allUsers={currentData} />
           <div className="flex justify-end space-x-2 mt-4">
             <button
               className="px-4 py-2 bg-gray-600 text-white rounded disabled:opacity-50"
@@ -159,9 +157,15 @@ const Admin = () => {
             >
               Previous
             </button>
+            <span className="px-4 py-2">
+              Page {currentPage + 1} of {totalPages}
+            </span>
             <button
               className="px-4 py-2 bg-blue-600 text-white rounded"
-              onClick={() => setCurrentPage((prev) => prev + 1)}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
+              }
+              disabled={currentPage >= totalPages - 1}
             >
               Next
             </button>
