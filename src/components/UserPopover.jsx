@@ -11,22 +11,25 @@ import { Separator } from "./ui/separator";
 
 import { ModeToggle } from "./ui/ModeToggle";
 import { Button } from "@heroui/react";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../hooks/AuthContextProvider";
 
-const UserPopover = ({ user, logout }) => {
+const UserPopover = ({ user, logout, setUser }) => {
+  const { newUser, setNewUser } = useContext(AuthContext);
+
   const [avatar, setAvatar] = useState(null);
   // console.log(avatar);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      setAvatar(user?.id.slice(0, 2)); // Set avatar when user is available
+    if (newUser) {
+      setAvatar(newUser?.id.slice(0, 2)); // Set avatar when user is available
     } else {
       setAvatar(""); // Reset avatar when user is not available
     }
-  }, [user]); // This runs only when `user` changes
+  }, [newUser]); // This runs only when `user` changes
 
   const handleLogout = async () => {
     try {
@@ -35,19 +38,23 @@ const UserPopover = ({ user, logout }) => {
       setIsOpen(false); // Close popover after logout
       navigate("/login"); // Navigate after closing
       setAvatar(null);
+      setUser(null);
+      setNewUser(null);
     } catch (err) {
       console.error(err);
     }
   };
 
-  // console.log(user);
+  console.log(newUser);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Avatar>
           <AvatarImage src={user?.id} />
-          <AvatarFallback>{avatar}</AvatarFallback>
+          <AvatarFallback className="bg-mainBlue font-bold text-black">
+            {avatar}
+          </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent
@@ -61,10 +68,40 @@ const UserPopover = ({ user, logout }) => {
           <p className="text-lg ">{user?.email}</p>
           <Separator className="my-4" />
           <ModeToggle />
+          {newUser?.role === "admin" ? (
+            <Link
+              to="/admin/dashboard"
+              fullWidth
+              variant="light"
+              className=" bg-mainBlue rounded-xl py-2 px-4 w-full text-center text-black font-medium mt-3"
+            >
+              Admin Panel
+            </Link>
+          ) : newUser?.role === "examinee" ? (
+            <Link
+              to="/examinee/dashboard"
+              fullWidth
+              variant="light"
+              className=" bg-mainBlue rounded-xl py-2 px-4 w-full text-center text-black font-medium mt-3"
+              onClick={() => navigate("/examinee")}
+            >
+              Dashboard
+            </Link>
+          ) : newUser?.role === "candidate" ? (
+            <Link
+              to="/candidate/dashboard"
+              fullWidth
+              variant="light"
+              className=" bg-mainBlue rounded-xl py-2 px-4 w-full text-center text-black font-medium mt-3"
+              onClick={() => navigate("/candidate")}
+            >
+              Dashboard
+            </Link>
+          ) : null}
           <Button
             fullWidth
             variant="light"
-            className=" bg-[#27272A] rounded-xl py-1 px-4 text-white mt-3"
+            className=" bg-red-500 rounded-xl py-1 px-4 text-white mt-3"
             onClick={() => handleLogout()}
           >
             Logout

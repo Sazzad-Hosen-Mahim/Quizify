@@ -23,6 +23,7 @@ const githubProvider = new GithubAuthProvider();
 const AuthProvider = ({ children }) => {
   const Axios = useAxiosSecure();
   const [user, setUser] = useState(null);
+  const [newUser, setNewUser] = useState(null);
   const [loginChecking, setLoginChecking] = useState(true);
   const token = Cookies.get("user");
   // console.log(token);
@@ -37,6 +38,24 @@ const AuthProvider = ({ children }) => {
   }
 
   // console.log(approvalToken);
+
+  useEffect(() => {
+    const userData = Cookies.get("user");
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setNewUser(parsedUser);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        setNewUser(null);
+      }
+    } else {
+      console.warn("No user data found in cookies");
+      setUser(null);
+    }
+  }, []);
+
+  console.log(newUser, "newUser");
 
   useEffect(() => {
     const checkUserAuthentication = async () => {
@@ -133,6 +152,7 @@ const AuthProvider = ({ children }) => {
   const customLogout = async () => {
     Cookies.remove("user");
     setUser(null);
+    setNewUser(null);
 
     return null;
   };
@@ -145,6 +165,8 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     user,
     setUser,
+    newUser,
+    setNewUser,
     githubSignIn,
     signUp,
     signIn,

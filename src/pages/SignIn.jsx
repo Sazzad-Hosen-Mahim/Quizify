@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Button, Divider, Input } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -23,11 +23,14 @@ import img2 from "../assets/client/2.jpg";
 import img3 from "../assets/client/3.jpg";
 import img4 from "../assets/client/4.jpg";
 import img5 from "../assets/client/5.jpg";
+import { AuthContext } from "../hooks/AuthContextProvider";
 // import useAxiosSecure from "@/hooks/useAxios";
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
+
+  const { logout, newUser, setNewUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -67,6 +70,7 @@ const SignIn = () => {
     console.log(res, "res");
 
     toast.success("Successfully Logged In");
+    setNewUser(res?.data);
 
     Cookies.set("user", JSON.stringify(res?.data), { expires: 30 });
     setUser(res?.data);
@@ -92,8 +96,9 @@ const SignIn = () => {
 
   const onSubmit = async (userData) => {
     setIsLoading(true);
+    // setNewUser(userData);
 
-    console.log(userData);
+    console.log(userData, "userData");
     mutate(userData);
   };
 

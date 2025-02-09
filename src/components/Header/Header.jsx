@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import quizImage from "/src/assets/banner-image/2bg.png"; // Replace with your actual image path
 import { FaArrowRightLong } from "react-icons/fa6";
+import { useContext } from "react";
+import { AuthContext } from "../../hooks/AuthContextProvider";
 
 const Header = () => {
-  const navigate = useNavigate();
+  const { newUser } = useContext(AuthContext);
+
   return (
     <div className="relative h-screen w-full">
       <div className="absolute inset-0 bg-[url('/src/assets/bg/bg1.jpg')] bg-cover bg-center bg-fixed opacity-25"></div>
@@ -21,15 +24,15 @@ const Header = () => {
             in a fun and interactive way. Compete with friends and track your
             progress!
           </p>
-          <button
-            onClick={navigate("/login")}
+          <Link
+            to={`${!newUser ? "/login" : `/${newUser?.role}/dashboard`}`}
             className="bg-[#1CCDF6]/80 text-black px-6 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-yellow-500 transition flex gap-4 items-center justify-center"
           >
             <h1>Let&apos;s Get Start</h1>
             <button>
               <FaArrowRightLong />
             </button>
-          </button>
+          </Link>
         </div>
 
         {/* Right Section - Image */}

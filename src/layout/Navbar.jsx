@@ -20,7 +20,7 @@ import { MdLogin } from "react-icons/md";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { logout } = useContext(AuthContext);
+  const { logout, newUser, setNewUser } = useContext(AuthContext);
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -143,7 +143,7 @@ export default function Header() {
             </motion.div>
           </motion.div>
         </div>
-        {user && user.userStatus !== "banned" ? (
+        {/* {user && user.userStatus !== "banned" ? (
           <Button
             as={Link}
             to={
@@ -176,7 +176,7 @@ export default function Header() {
           >
             {user && user.role === "admin" ? "Dashboard" : "Profile"}
           </Button>
-        )}
+        )} */}
 
         <div className=" hidden md:block h-50vh">{/* <ModeToggle /> */} </div>
       </NavbarContent>
@@ -246,8 +246,14 @@ export default function Header() {
       </NavbarMenu>
 
       <NavbarContent justify="end" className="flex gap-12">
-        {user ? (
-          <UserPopover user={user} logout={logout} />
+        {user || newUser ? (
+          <UserPopover
+            user={user}
+            logout={logout}
+            setUser={setUser}
+            setNewUser={setNewUser}
+            newUser={newUser}
+          />
         ) : (
           <div>
             <Button
