@@ -16,9 +16,6 @@ import { AuthContext } from "@/hooks/AuthContextProvider";
 import usePostMutate from "@/hooks/shared/usePostMutate";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-
-// import { imageUpload } from "../helpers/cloudinary";
-// import ImageSelector from "../others/ImageSelector";
 import img1 from "../assets/client/1.jpg";
 import img2 from "../assets/client/2.jpg";
 import img3 from "../assets/client/3.jpg";
@@ -39,9 +36,6 @@ const SignUp = () => {
   const {
     control,
     handleSubmit,
-    // setValue,
-    setError,
-    // clearErrors,
     formState: { errors },
     // watch,
   } = useForm();
@@ -75,26 +69,6 @@ const SignUp = () => {
   };
 
   const toggleVisibility = () => setIsVisible(!isVisible);
-  // const handleFileChange = async (e) => {
-  //   toast.loading("Uploading Image Please Wait...");
-
-  //   const selectedFile = e.target.files?.[0];
-  //   if (selectedFile) {
-  //     try {
-  //       const imageUrl = await imageUpload(selectedFile);
-  //       const { secure_url } = imageUrl;
-  //       console.log(secure_url);
-
-  //       setValue("avatar", secure_url);
-  //       clearErrors("avatar");
-
-  //       setAvatarUrl(secure_url);
-  //       // clearErrors('imageUrl');
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  // };
 
   return (
     <motion.div
@@ -104,12 +78,7 @@ const SignUp = () => {
       exit="exit"
       className="  relative  min-h-screen"
     >
-      {/* <Helmet>
-        <title>Sign In | Jobify</title>
-        <link rel="canonical" href="https://jobify-bd6c2.web.app/" />
-      </Helmet> */}
-
-      <div className=" w-full mx-auto md:grid grid-cols-3  h-full   items-center justify-center">
+      <div className=" w-full mx-auto md:grid grid-cols-3  h-full font-poppins items-center justify-center lg:mt-16">
         <div className="banner-Container flex-1 hidden md:flex  col-span-2   justify-center items-center  h-full w-full dark:bg-darkish    bg-no-repeat  mx-auto  ">
           <div className="w-1/2 h-1/2 flex flex-col justify-center items-center bg-[#141E30] bg-gradient-to-r from-[#243B55] to-[#141E30] text-white p-8">
             <h1 className="text-4xl font-bold mb-4">Quizify</h1>
@@ -154,7 +123,7 @@ const SignUp = () => {
           <Card className="bg-transparent border-none  ">
             <CardHeader className="flex flex-col gap-4">
               <p className="text-2xl font-medium">
-                Get started absolutely free
+                Sign up for your account for free
               </p>
               <p className="text-sm font-medium">
                 Already have an account?{" "}

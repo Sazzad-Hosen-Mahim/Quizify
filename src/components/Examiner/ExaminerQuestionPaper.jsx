@@ -83,7 +83,7 @@ const ExaminerQuestionPaperDashboard = () => {
   console.log(question);
 
   return (
-    <div className="flex text-white">
+    <div className="flex text-white font-poppins">
       {/* Sidebar */}
       <Sidebar />
 

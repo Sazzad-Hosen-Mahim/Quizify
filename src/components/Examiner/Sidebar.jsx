@@ -5,7 +5,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="w-1/4 bg-black p-5 flex flex-col gap-4 border-r border-gray-600">
+    <div className="w-1/4 bg-black p-5 flex flex-col gap-4 border-r border-gray-600 font-poppins">
       <h2 className="text-xl font-bold text-center">Examinee Dashboard</h2>
 
       <Link
@@ -26,7 +26,7 @@ const Sidebar = () => {
             : ""
         }`}
       >
-        <FileText size={20} /> Question Paper
+        <FileText size={20} /> My Question Paper
       </Link>
     </div>
   );

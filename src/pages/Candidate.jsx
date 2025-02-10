@@ -15,6 +15,15 @@ import { CirclePlay } from "lucide-react";
 import { Laugh } from "lucide-react";
 import { MdTimer } from "react-icons/md";
 import { PiExamFill } from "react-icons/pi";
+import {
+  AnswerContent,
+  AnswerFooter,
+  AnswerHeader,
+  Answers,
+  AnswerTitle,
+} from "../components/AnswerSheet";
+import { Button, Radio, RadioGroup } from "@heroui/react";
+import { CircleX } from "lucide-react";
 
 const Candidate = () => {
   const [activeTab, setActiveTab] = useState("exams");
@@ -33,16 +42,9 @@ const Candidate = () => {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [isResultModalOpen, setIsResultModalOpen] = useState(false);
   const [startTime, setStartTime] = useState(null);
+  const [currentQuestioonIndex, setCurrentQuestioonIndex] = useState(0);
+
   const Axios = useAxiosSecure();
-
-  // const [question, setQuestion] = useState([]);
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const itemsPerPage = 6;
-
-  // const totalPages = Math.ceil(question.length / itemsPerPage);
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentQuestions = question.slice(indexOfFirstItem, indexOfLastItem);
 
   const fetchAllQuestionPapers = async () => {
     try {
@@ -92,6 +94,10 @@ const Candidate = () => {
 
   const startExam = async (exam) => {
     try {
+      setMcqs([]); // Reset MCQs
+      setAnswers({}); // Reset previous answers
+      setSelectedExam(null); // Reset selected exam state
+      setStartTime(null); // Reset start time
       const currentStartTime = Date.now().toString();
       setStartTime(currentStartTime);
       console.log("Exam Start Time:", startTime);
@@ -117,8 +123,22 @@ const Candidate = () => {
     }
   };
 
-  const handleAnswerSelect = (mcqId, answer) => {
-    setAnswers((prev) => ({ ...prev, [mcqId]: answer }));
+  const handleAnswerSelect = (mcqId, selectOption) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [mcqId]: selectOption,
+    }));
+  };
+
+  const nextQuestion = () => {
+    if (currentQuestioonIndex < mcqs.length - 1) {
+      setCurrentQuestioonIndex((prev) => prev + 1);
+    }
+  };
+  const prevQuestion = () => {
+    if (currentQuestioonIndex > 0) {
+      setCurrentQuestioonIndex((prev) => prev - 1);
+    }
   };
   console.log("answer before submission", answers);
 
@@ -127,17 +147,6 @@ const Candidate = () => {
       console.log("exam not started");
       return;
     }
-
-    // const currentTime = Date.now();
-    // console.log("current time", currentTime);
-    // console.log("exam start time", startTime);
-
-    // const examDuration = 3600000;
-
-    // if (currentTime - startTime > examDuration) {
-    //   console.error("Time exceeded! Cannot submit.");
-    //   return;
-    // }
 
     try {
       console.log("Selected Exam Data:", selectedExam); // Debugging log
@@ -182,7 +191,7 @@ const Candidate = () => {
   };
 
   return (
-    <div className="flex  bg-cyan-800/50 text-white">
+    <div className="flex  bg-cyan-800/50 text-white font-poppins">
       <div className="w-1/4 dark:bg-black p-5 flex flex-col gap-4 border-r border-gray-700">
         <h2 className="text-xl font-bold text-center"> Dashboard</h2>
         <button
@@ -249,49 +258,115 @@ const Candidate = () => {
         </div>
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-gray-800 text-white max-h-[70vh] h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+        <DialogContent className="bg-gray-800 text-white lg:h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 font-poppins">
           <DialogHeader>
-            <DialogTitle>{selectedExam?.subject} - MCQs</DialogTitle>
-            {/* <button onClick={setIsDialogOpen(false)}/> */}
-          </DialogHeader>
-          <div className="space-y-4 h-[55vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-            {mcqs.map((mcq) => (
-              <div key={mcq.id} className="p-3 bg-black rounded">
-                <p className="font-semibold">{mcq.question}</p>
-                {mcq.options.map((option, index) => (
-                  <label key={index} className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name={mcq.id}
-                      value={index + 1}
-                      onChange={() => handleAnswerSelect(mcq.id, index + 1)}
-                      className="w-4 h-4"
-                    />
-                    {option}
-                  </label>
-                ))}
+            <div className="flex">
+              <div>
+                <DialogTitle>{selectedExam?.subject} - MCQs</DialogTitle>
               </div>
-            ))}
+
+              <div>
+                <Button
+                  className=" bg-transparent hover:text-red-400 justify-end !min-w-0 text-white p-2 rounded-lg ml-[120px] "
+                  onClick={() => {
+                    submitExam();
+                    setIsDialogOpen(false);
+                  }}
+                >
+                  <CircleX />
+                </Button>
+              </div>
+            </div>
+          </DialogHeader>
+
+          <div className="h-[30vh] flex flex-col justify-between">
+            {mcqs.length > 0 && (
+              <div key={mcqs[currentQuestioonIndex].id} className="p-3 rounded">
+                <p className="font-semibold">
+                  {mcqs[currentQuestioonIndex].question}
+                </p>
+                <RadioGroup className="flex flex-col mt-4 mb-5 text-gray-200">
+                  {mcqs[currentQuestioonIndex].options.map((option, index) => (
+                    <div key={index} className="flex items-center gap-7">
+                      <Radio
+                        name={mcqs[currentQuestioonIndex].id}
+                        value={index + 1}
+                        checked={
+                          answers[mcqs[currentQuestioonIndex].id] === index + 1
+                        }
+                        onChange={() =>
+                          handleAnswerSelect(
+                            mcqs[currentQuestioonIndex].id,
+                            index + 1
+                          )
+                        }
+                        className="w-4 h-4"
+                      />
+                      <span>{option}</span>{" "}
+                      {/* Ensures text appears next to radio button */}
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+            )}
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mb-4 ">
+              <Button
+                variant="faded"
+                onClick={prevQuestion}
+                disabled={currentQuestioonIndex === 0}
+                className="bg-gray-600 hover:bg-gray-700 text-white p-2 rounded-lg w-1/3 disabled:opacity-50"
+              >
+                Previous
+              </Button>
+
+              {currentQuestioonIndex === mcqs.length - 1 ? (
+                <Button
+                  onClick={() => {
+                    submitExam();
+                    setIsDialogOpen(false);
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white p-2 rounded-lg "
+                >
+                  Submit
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  variant="flat"
+                  onClick={nextQuestion}
+                  className="bg-[#39ACE1] hover:bg-blue-700 text-white  p-2 rounded-lg w-1/3"
+                >
+                  Next
+                </Button>
+              )}
+            </div>
           </div>
           <DialogFooter>
-            <button
-              className="bg-green-600 hover:bg-green-700 text-white p-2 rounded-lg w-full"
-              onClick={submitExam}
-            >
-              Submit
-            </button>
+            <div>
+              <Button
+                variant="shadow"
+                className="bg-green-600 hover:bg-green-700 mt-10 text-white font-semibold p-2 rounded-lg w-full "
+                onClick={() => {
+                  submitExam();
+                  setIsDialogOpen(false);
+                }}
+              >
+                Submit
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={isResultModalOpen} onOpenChange={setIsResultModalOpen}>
-        <DialogContent className="bg-gray-800 text-white max-h-[60vh] h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-          <DialogHeader>
-            <DialogTitle>Exam Result</DialogTitle>
-          </DialogHeader>
+      <Answers open={isResultModalOpen} onOpenChange={setIsResultModalOpen}>
+        <AnswerContent className="bg-gray-800 text-white max-h-[60vh] h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+          <AnswerHeader>
+            <AnswerTitle>Exam Result</AnswerTitle>
+          </AnswerHeader>
 
           {result && (
-            <div className="p-4 ">
+            <div className="space-y-4 h-[55vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
               <p className="text-xl font-semibold text-black pb-2 ">
                 Acquired Marks:{" "}
                 <span className="text-red-600 font-semibold">
@@ -317,16 +392,16 @@ const Candidate = () => {
               </div>
             </div>
           )}
-          <DialogFooter>
+          <AnswerFooter>
             <button
               className="bg-red-600/80 hover:bg-red-700 text-white p-2 rounded-lg w-full"
               onClick={() => setIsResultModalOpen(false)}
             >
               Close
             </button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </AnswerFooter>
+        </AnswerContent>
+      </Answers>
 
       <div className="mt-6 flex justify-center"></div>
     </div>

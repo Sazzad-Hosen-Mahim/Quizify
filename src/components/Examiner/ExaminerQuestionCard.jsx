@@ -82,7 +82,7 @@ const ExaminerQuestionCard = ({ question }) => {
 
   return (
     <>
-      <div className="dark:bg-black p-3 w-full rounded-lg shadow-medium mt-3">
+      <div className="dark:bg-black p-3 w-full rounded-lg shadow-medium mt-3 font-poppins">
         <h1 className="text-xl font-bold mb-5">Subject: {subject}</h1>
         <p>Duration: {duration / 60000}</p>
         <p>Examinee Id: {examineeId}</p>

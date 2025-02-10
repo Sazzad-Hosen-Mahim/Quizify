@@ -141,14 +141,14 @@ const Admin = () => {
   return (
     <>
       <CommonWrapper>
-        <div className="flex justify-between items-center my-4">
+        <div className="flex justify-between items-center my-4 font-inter">
           {/* Filter Select */}
-          <div className="w-60">
+          <div className="w-60 font-inter">
             <Select onValueChange={setFilterType} value={filterType}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="font-poppins">
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="examiner">Examiner</SelectItem>
                 <SelectItem value="candidate">Candidate</SelectItem>
@@ -174,7 +174,7 @@ const Admin = () => {
           >
             <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-blue-700 rounded-full group-hover:w-56 group-hover:h-56"></span>
             <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-cyan-500"></span>
-            <span className="relative">Create Examiner</span>
+            <span className="relative font-poppins">Create Examiner</span>
           </button>
         </div>
         <div>
