@@ -2,7 +2,7 @@
 // import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function Dialog({ open,  children }) {
+export function Answers({ open, onOpenChange, children }) {
   return (
     <div
       className={cn(
@@ -15,11 +15,11 @@ export function Dialog({ open,  children }) {
           "fixed inset-0 bg-black bg-opacity-50 transition-opacity",
           open ? "opacity-100" : "opacity-0"
         )}
-        // onClick={() => onOpenChange(false)}
+        onClick={() => onOpenChange(false)}
       ></div>
       <div
         className={cn(
-          "bg-[#055766] rounded-lg shadow-lg p-6 w-full h-[480px] max-w-md transition-transform",
+          "bg-[#055766] rounded-lg shadow-lg p-6 w-full h-[700px] max-w-md transition-transform",
           open ? "scale-100" : "scale-95"
         )}
       >
@@ -29,13 +29,13 @@ export function Dialog({ open,  children }) {
   );
 }
 
-export function DialogContent({ children }) {
+export function AnswerContent({ children }) {
   return <div className="p-4">{children}</div>;
 }
 
-export function DialogHeader({ children }) {
+export function AnswerHeader({ children }) {
   return (
-    <div className="flex justify-between items-center p-4 ">
+    <div className="flex justify-between items-center p-4 border-b">
       <div className="text-lg font-semibold">{children}</div>
       {/* <button className="text-gray-500 hover:text-gray-700" onClick={onClose}>
         <X size={20} />
@@ -44,10 +44,10 @@ export function DialogHeader({ children }) {
   );
 }
 
-export function DialogTitle({ children }) {
+export function AnswerTitle({ children }) {
   return <h2 className="text-xl font-bold">{children}</h2>;
 }
 
-export function DialogFooter({ children }) {
-  return <div className="p-4  gap-2">{children}</div>;
+export function AnswerFooter({ children }) {
+  return <div className="p-4 border-t flex justify-end gap-2">{children}</div>;
 }
