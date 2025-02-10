@@ -236,7 +236,7 @@ const Candidate = () => {
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {questionPapers.length > 0 ? (
+          {Array.isArray(questionPapers) && questionPapers.length > 0 ? (
             questionPapers.map((data) => (
               <div
                 key={data.id}

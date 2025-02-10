@@ -73,7 +73,7 @@ const UserPopover = ({ user, logout, setUser }) => {
               to="/admin/dashboard"
               fullWidth
               variant="light"
-              className=" bg-mainBlue rounded-xl py-2 px-4 w-full text-center text-black font-medium mt-3"
+              className=" bg-mainBlue hover:bg-blue-600 text-black hover:text-white rounded-xl py-2 px-4 w-full text-center  font-medium mt-3"
             >
               Admin Panel
             </Link>
@@ -102,7 +102,7 @@ const UserPopover = ({ user, logout, setUser }) => {
             fullWidth
             variant="light"
             className=" bg-red-500 rounded-xl py-1 px-4 text-white mt-3"
-            onClick={() => handleLogout()}
+            onPress={() => handleLogout()}
           >
             Logout
           </Button>
