@@ -13,6 +13,7 @@ module.exports = {
     "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+
     container: {
       center: true,
       padding: "2rem",
@@ -97,6 +98,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+
   },
   darkMode: "class",
 

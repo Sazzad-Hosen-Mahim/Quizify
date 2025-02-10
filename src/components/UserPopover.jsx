@@ -101,7 +101,9 @@ const UserPopover = ({ user, logout, setUser }) => {
           <Button
             fullWidth
             variant="light"
+
             className=" bg-red-500 rounded-xl py-1 px-4 text-white mt-3 font-poppins"
+
             onPress={() => handleLogout()}
           >
             Logout

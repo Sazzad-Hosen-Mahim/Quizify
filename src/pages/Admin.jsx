@@ -141,14 +141,18 @@ const Admin = () => {
   return (
     <>
       <CommonWrapper>
+
         <div className="flex justify-between items-center my-4 font-inter">
           {/* Filter Select */}
           <div className="w-60 font-inter">
+
             <Select onValueChange={setFilterType} value={filterType}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
+
               <SelectContent className="font-poppins">
+
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="examiner">Examiner</SelectItem>
                 <SelectItem value="candidate">Candidate</SelectItem>
