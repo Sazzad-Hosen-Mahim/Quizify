@@ -15,11 +15,11 @@ const Header = () => {
       <div className="relative z-10 lg:flex lg:gap-36 items-center justify-center h-full text-white px-6">
         {/* Left Section */}
         <div className="flex flex-col gap-10 max-w-2xl w-full bg-opacity-50 p-8 rounded-lg shadow-lg">
-          <h1 className="text-5xl font-extrabold leading-tight">
+          <h1 className="text-5xl font-extrabold leading-tight font-poppins">
             Test Your Knowledge with{" "}
-            <span className="text-mainBlue">Quizify</span>
+            <span className="text-mainBlue font-inter">Quizify</span>
           </h1>
-          <p className="text-xl text-gray-200">
+          <p className="text-xl font-medium text-gray-200 font-inter">
             Challenge yourself with engaging quizzes and expand your knowledge
             in a fun and interactive way. Compete with friends and track your
             progress!

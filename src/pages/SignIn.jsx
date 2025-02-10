@@ -24,7 +24,6 @@ import img3 from "../assets/client/3.jpg";
 import img4 from "../assets/client/4.jpg";
 import img5 from "../assets/client/5.jpg";
 import { AuthContext } from "../hooks/AuthContextProvider";
-// import useAxiosSecure from "@/hooks/useAxios";
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -117,7 +116,7 @@ const SignIn = () => {
         <link rel="canonical" href="https://jobify-bd6c2.web.app/" />
       </Helmet>
 
-      <div className=" w-full min-h-screen  mx-auto md:grid grid-cols-3  h-full   items-center justify-center">
+      <div className=" w-full min-h-screen  mx-auto md:grid grid-cols-3  h-full font-poppins items-center justify-center">
         <div className="banner-Container flex-1 hidden md:flex  col-span-2   justify-center items-center  h-full w-full dark:bg-darkish    bg-no-repeat  mx-auto  ">
           <div className="w-1/2 h-1/2 flex flex-col justify-center items-center bg-[#141E30] bg-gradient-to-r from-[#243B55] to-[#141E30] text-white p-8">
             <h1 className="text-4xl font-bold mb-4">Quizify</h1>
@@ -161,11 +160,11 @@ const SignIn = () => {
         <div className="flex-1 w-full  min-h-screen  flex justify-center items-center mx-auto">
           <Card className="bg-transparent border-none w-full p-4 md:p-10  ">
             <CardHeader className="flex flex-col gap-4">
-              <p className="text-2xl font-medium">Sign in</p>
-              <p className="text-sm ">
+              <p className="text-2xl font-medium font-libre">Sign in</p>
+              <p className="text-md ">
                 New user?{" "}
                 <Link to={"/signup"} className="text-danger hover:underline">
-                  Create an account
+                  Create a candidate account
                 </Link>
               </p>
             </CardHeader>

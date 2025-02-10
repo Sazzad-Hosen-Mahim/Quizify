@@ -2,7 +2,7 @@
 // import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function Dialog({ open,  children }) {
+export function Dialog({ open, children }) {
   return (
     <div
       className={cn(
@@ -19,7 +19,7 @@ export function Dialog({ open,  children }) {
       ></div>
       <div
         className={cn(
-          "bg-[#055766] rounded-lg shadow-lg p-6 w-full h-[480px] max-w-md transition-transform",
+          "bg-[#212f3c] rounded-lg shadow-lg p-6 w-full lg:h-[550px] max-w-md transition-transform",
           open ? "scale-100" : "scale-95"
         )}
       >

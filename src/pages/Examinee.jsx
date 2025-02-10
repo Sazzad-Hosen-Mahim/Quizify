@@ -37,7 +37,7 @@ const Examinee = () => {
   const currentQuestions = question.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div className="flex  text-white">
+    <div className="flex  text-white font-poppins">
       <Sidebar />
 
       <div className="w-3/4 p-6 bg-cyan-800/50">
