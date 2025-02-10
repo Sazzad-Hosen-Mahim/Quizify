@@ -7,9 +7,19 @@ import usePostMutate from "../hooks/shared/usePostMutate";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { Spinner } from "@heroui/react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Admin = () => {
   const [allUsers, setAllUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [filterType, setFilterType] = useState("all");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -33,7 +43,10 @@ const Admin = () => {
             Authorization: approvalToken,
           },
         });
-        setAllUsers(response?.data?.body || []);
+
+        const fetchedUsers = response?.data?.body || [];
+        setAllUsers(fetchedUsers);
+        setFilteredUsers(fetchedUsers);
       } catch (error) {
         console.log(error);
       } finally {
@@ -44,35 +57,38 @@ const Admin = () => {
     getAllUsers();
   }, [approvalToken, Axios]);
 
-  // search functionality
+  console.log(allUsers);
+
+  const applyFiltersAndSearch = (users) => {
+    let filtered = [...users];
+
+    // Apply filter
+    if (filterType === "examiner") {
+      filtered = filtered.filter((user) => user.userType === "examinee");
+    } else if (filterType === "candidate") {
+      filtered = filtered.filter((user) => user.userType === "candidate");
+    }
+
+    // Apply search
+    if (searchTerm) {
+      filtered = filtered.filter((user) =>
+        Object.values(user).some((value) =>
+          String(value).toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+
+    setFilteredUsers(filtered);
+    setCurrentPage(0); // Reset pagination to the first page
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const endpoint = searchTerm
-          ? `/search/searchForAdmin?searchTerm=${searchTerm}&limit=${limit}&page=${currentPage}`
-          : "/user/getAllUser";
+    applyFiltersAndSearch(allUsers);
+  }, [filterType]);
 
-        const response = await Axios.get(endpoint, {
-          headers: { Authorization: approvalToken },
-        });
-
-        const users = searchTerm ? response?.data?.data : response?.data?.body;
-
-        if (Array.isArray(users)) {
-          setAllUsers(users.length ? users : []);
-        } else {
-          console.warn("Unexpected response structure:", response.data);
-          setAllUsers([]);
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setAllUsers([]);
-      }
-    };
-
-    const delayDebounceFn = setTimeout(fetchUsers, 500);
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, currentPage, Axios, approvalToken, limit]);
+  useEffect(() => {
+    applyFiltersAndSearch(allUsers);
+  }, [searchTerm]);
 
   // Form handling with react-hook-form
   const {
@@ -98,8 +114,8 @@ const Admin = () => {
     mutate(data);
   };
 
-  const totalPages = Math.ceil(allUsers.length / limit);
-  const currentData = allUsers.slice(
+  const totalPages = Math.ceil(filteredUsers.length / limit);
+  const currentData = filteredUsers.slice(
     currentPage * limit,
     (currentPage + 1) * limit
   );
@@ -120,11 +136,25 @@ const Admin = () => {
     );
   }
 
+  console.log(JSON.stringify(filteredUsers), "filteredUsers");
+
   return (
     <>
       <CommonWrapper>
-        <div className="flex justify-between items-center my-2">
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
+        <div className="flex justify-between items-center my-4">
+          {/* Filter Select */}
+          <div className="w-60">
+            <Select onValueChange={setFilterType} value={filterType}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Filter by role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="examiner">Examiner</SelectItem>
+                <SelectItem value="candidate">Candidate</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <div className="relative flex items-center">
             {/* Search Icon */}
             <FaSearch className="absolute left-3 text-gray-400" />
