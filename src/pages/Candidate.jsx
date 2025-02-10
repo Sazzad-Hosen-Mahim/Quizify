@@ -280,7 +280,7 @@ const Candidate = () => {
           </DialogHeader>
 
           <div className="h-[30vh] flex flex-col justify-between">
-            {mcqs.length > 0 && (
+            {Array.isArray(mcqs) && mcqs.length > 0 && (
               <div key={mcqs[currentQuestioonIndex].id} className="p-3 rounded">
                 <p className="font-semibold">
                   {mcqs[currentQuestioonIndex].question}
