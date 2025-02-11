@@ -52,12 +52,12 @@ const Service = () => {
 
   return (
     <div className="py-20 px-6">
-      <h2 className="text-4xl font-bold text-white text-center mb-10">
+      <h2 className="text-4xl font-bold text-white text-center mb-10 font-poppins">
         Explore Our Quizzes
       </h2>
 
       {/* Bento Grid Layout */}
-      <div className="grid grid-cols-3 grid-rows-3 gap-6">
+      <div className="grid grid-cols-3 grid-rows-3 gap-6 font-inter">
         {quizzes.map((quiz, index) => (
           <div
             key={index}

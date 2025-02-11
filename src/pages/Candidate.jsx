@@ -23,7 +23,7 @@ import {
   AnswerTitle,
 } from "../components/AnswerSheet";
 import { Button, Radio, RadioGroup } from "@heroui/react";
-import { CircleX } from 'lucide-react';
+import { CircleX } from "lucide-react";
 
 const Candidate = () => {
   const [activeTab, setActiveTab] = useState("exams");
@@ -190,23 +190,8 @@ const Candidate = () => {
     }
   };
 
-  // const handleClickOutside = (event)=>{
-  //   if(modalRef.current && !modalRef.current.contains(event.target)){
-  //     submitExam();
-  //     setIsResultModalOpen(true);
-  //   }
-  // }
-  // useEffect(()=>{
-  //   if(!isDialogOpen){
-  //     document.addEventListener("click", handleClickOutside);
-  //     return()=>{
-  //       document.removeEventListener("click", handleClickOutside);
-  //     }
-  //   }
-  // },[isDialogOpen]);
-
   return (
-    <div className="flex  bg-cyan-800/50 text-white">
+    <div className="flex  bg-cyan-800/50 text-white font-poppins">
       <div className="w-1/4 dark:bg-black p-5 flex flex-col gap-4 border-r border-gray-700">
         <h2 className="text-xl font-bold text-center"> Dashboard</h2>
         <button
@@ -273,38 +258,37 @@ const Candidate = () => {
         </div>
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        
-        <DialogContent className="bg-gray-800 text-white max-h-[70vh] h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
+
+
+        <DialogContent className="bg-gray-800 text-white lg:h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 font-poppins">
+
           <DialogHeader>
-          <div className="flex">
-          <div>
-           <DialogTitle>{selectedExam?.subject} - MCQs</DialogTitle>
-           </div>
-            {/* <button onClick={setIsDialogOpen(false)}/> */}
-            <div>
-            <Button
-                className=" bg-transparent hover:text-red-400 justify-end  text-white p-2 rounded-lg  ml-[130px] "
-                onClick={() => {
-                  submitExam();
-                  setIsDialogOpen(false);
-                }}
-              >
-                <CircleX />
-              </Button>
+            <div className="flex">
+              <div>
+                <DialogTitle>{selectedExam?.subject} - MCQs</DialogTitle>
+              </div>
+
+              <div>
+                <Button
+                  className=" bg-transparent hover:text-red-400 justify-end !min-w-0 text-white p-2 rounded-lg ml-[120px] "
+                  onClick={() => {
+                    submitExam();
+                    setIsDialogOpen(false);
+                  }}
+                >
+                  <CircleX />
+                </Button>
+              </div>
             </div>
-          </div>
           </DialogHeader>
 
           <div className="h-[30vh] flex flex-col justify-between">
-            {mcqs.length > 0 && (
-              <div
-                key={mcqs[currentQuestioonIndex].id}
-                className="p-3 bg-black rounded"
-              >
+            {Array.isArray(mcqs) && mcqs.length > 0 && (
+              <div key={mcqs[currentQuestioonIndex].id} className="p-3 rounded">
                 <p className="font-semibold">
                   {mcqs[currentQuestioonIndex].question}
                 </p>
-                <RadioGroup className="flex flex-col">
+                <RadioGroup className="flex flex-col mt-4 mb-5 text-gray-200">
                   {mcqs[currentQuestioonIndex].options.map((option, index) => (
                     <div key={index} className="flex items-center gap-7">
                       <Radio
@@ -341,7 +325,7 @@ const Candidate = () => {
 
               {currentQuestioonIndex === mcqs.length - 1 ? (
                 <Button
-                  onClick={()=>{
+                  onClick={() => {
                     submitExam();
                     setIsDialogOpen(false);
                   }}
@@ -365,7 +349,7 @@ const Candidate = () => {
             <div>
               <Button
                 variant="shadow"
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold p-2 rounded-lg w-full "
+                className="bg-green-600 hover:bg-green-700 mt-10 text-white font-semibold p-2 rounded-lg w-full "
                 onClick={() => {
                   submitExam();
                   setIsDialogOpen(false);
@@ -373,9 +357,6 @@ const Candidate = () => {
               >
                 Submit
               </Button>
-            
-            
-    
             </div>
           </DialogFooter>
         </DialogContent>

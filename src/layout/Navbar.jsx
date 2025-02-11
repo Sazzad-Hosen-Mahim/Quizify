@@ -53,7 +53,7 @@ export default function Header() {
       maxWidth="2xl"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      className="bg-black text-white dark:bg-transparent backdrop-blur-[1.5px] fixed top-0 border-b-[1px] border-gray-500 z-50"
+      className="bg-black text-white dark:bg-transparent backdrop-blur-[1.5px] fixed top-0 border-b-[1px] border-gray-500 z-50 font-poppins"
       classNames={{
         item: [
           "flex",
@@ -89,13 +89,13 @@ export default function Header() {
             arial-label="home-page"
             className={` ml-4 flex shrink-0 grow-0 justify-center`}
           >
-            <h1 className="text-2xl font-bold dark:text-white">Quizify</h1>
+            <h1 className="text-2xl font-bold dark:text-white ">Quizify</h1>
           </NavLink>
         </motion.div>
       </NavbarContent>
 
       <NavbarContent as="div" className="items-center" justify="end">
-        <div className="hidden md:flex gap-8">
+        <div className="hidden md:flex gap-8 ">
           <motion.div
             initial="hidden"
             className="flex gap-12"
@@ -143,41 +143,6 @@ export default function Header() {
             </motion.div>
           </motion.div>
         </div>
-        {/* {user && user.userStatus !== "banned" ? (
-          <Button
-            as={Link}
-            to={
-              user.role === "admin"
-                ? "/admin/dashboard"
-                : user.role === "examinee"
-                ? "/examinee/dashboard"
-                : user.role === "candidate"
-                ? "/candidate/dashboard"
-                : "/"
-            }
-            color="primary"
-            size="lg"
-            variant="bordered"
-            className="hidden text-white md:flex border-none font-medium md:me-24"
-          >
-            {user && user.role === "admin" ? "Dashboard" : "Profile"}
-          </Button>
-        ) : (
-          <Button
-            onPress={() =>
-              toast.error(
-                "You are Banned, You Cant Access Dashboard Right Now!"
-              )
-            }
-            color="primary"
-            size="lg"
-            variant="bordered"
-            className="hidden text-white md:flex border-none font-medium"
-          >
-            {user && user.role === "admin" ? "Dashboard" : "Profile"}
-          </Button>
-        )} */}
-
         <div className=" hidden md:block h-50vh">{/* <ModeToggle /> */} </div>
       </NavbarContent>
       <NavbarMenu className="bg-mainBlue !h-[350px]">

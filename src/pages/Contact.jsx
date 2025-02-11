@@ -1,10 +1,12 @@
+import ContactImage from "../assets/banner-contact/5.png";
+
 const Contact = () => {
   return (
     <div className="flex flex-col md:flex-row items-center justify-center py-16 bg-cyan-800/40 p-6">
       {/* Left Side - Image */}
       <div className="md:w-3/5 flex justify-center">
         <img
-          src="/src/assets/banner-contact/5.png"
+          src={ContactImage}
           alt="Contact"
           className="w-full max-w-lg rounded-lg"
         />

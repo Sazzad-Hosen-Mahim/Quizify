@@ -75,14 +75,16 @@ const CommonTable = ({ allUsers }) => {
     <>
       <Table isStriped aria-label="Users Table">
         <TableHeader>
-          <TableColumn className="bg-mainBlue text-black py-4">
+          <TableColumn className="bg-mainBlue text-black py-4 font-inter">
             NAME
           </TableColumn>
-          <TableColumn className="bg-mainBlue text-black py-4">ID</TableColumn>
-          <TableColumn className="bg-mainBlue text-black py-4">
+          <TableColumn className="bg-mainBlue text-black py-4 font-inter">
+            ID
+          </TableColumn>
+          <TableColumn className="bg-mainBlue text-black py-4 font-inter">
             EMAIL
           </TableColumn>
-          <TableColumn className="bg-mainBlue text-black border-r-1 py-4">
+          <TableColumn className="bg-mainBlue text-black border-r-1 py-4 font-inter">
             STATUS
           </TableColumn>
         </TableHeader>
@@ -92,11 +94,11 @@ const CommonTable = ({ allUsers }) => {
               key={user?._id || user?.email}
               className="hover:bg-gray-800 hover:rounded-lg hover:text-white"
             >
-              <TableCell className="py-4">
+              <TableCell className="py-4 font-poppins">
                 {user?.firstName} {user?.lastName}
               </TableCell>
-              <TableCell className="py-4">{user?.id}</TableCell>
-              <TableCell className="py-4">{user?.email}</TableCell>
+              <TableCell className="py-4 font-poppins">{user?.id}</TableCell>
+              <TableCell className="py-4 font-poppins">{user?.email}</TableCell>
               <TableCell className="py-4">
                 <div className="flex gap-4">
                   <button
@@ -124,6 +126,7 @@ const CommonTable = ({ allUsers }) => {
         onOpenChange={onOpenChange}
         backdrop="opaque"
         radius="lg"
+        className="font-poppins"
       >
         <ModalContent>
           {(onClose) => (

@@ -11,7 +11,7 @@ const About = () => {
       transition={{ duration: 1 }}
     >
       <motion.h1
-        className="text-5xl font-bold mb-4"
+        className="text-5xl font-bold mb-4 font-inter"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
@@ -19,7 +19,7 @@ const About = () => {
         About <span className="text-yellow-400">Us</span>
       </motion.h1>
       <motion.p
-        className="text-lg max-w-2xl text-center"
+        className="text-lg max-w-2xl text-center font-poppins justify-stretch"
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, delay: 0.3 }}
@@ -29,7 +29,7 @@ const About = () => {
         experiences with innovation and creativity at the core of our work.
       </motion.p>
       <motion.button
-        className="mt-6 px-6 py-3 bg-white text-purple-600 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition-all"
+        className="mt-6 px-6 py-3 bg-white text-purple-600 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition-all font-libre"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
