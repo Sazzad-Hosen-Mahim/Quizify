@@ -111,7 +111,7 @@ const ExaminerSingleQuestionNew = () => {
   }, []);
 
   return (
-    <div className="flex bg-cyan-800/50 h-screen text-white">
+    <div className="flex bg-cyan-800/50 h-screen text-white font-poppins">
       <Sidebar />
       <div className="w-3/4 p-6 overflow-scroll overflow-x-clip">
         <div className="flex justify-between mb-2">
@@ -193,7 +193,7 @@ const ExaminerSingleQuestionNew = () => {
 
       {/* Delete Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 font-poppins">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center">
             <p className="mb-4">Are you sure you want to delete this MCQ?</p>
             <button
