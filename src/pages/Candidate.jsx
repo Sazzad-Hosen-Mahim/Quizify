@@ -258,7 +258,10 @@ const Candidate = () => {
         </div>
       </div>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+
+
         <DialogContent className="bg-gray-800 text-white lg:h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800 font-poppins">
+
           <DialogHeader>
             <div className="flex">
               <div>
